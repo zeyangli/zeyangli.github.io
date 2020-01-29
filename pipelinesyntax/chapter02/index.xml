@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jenkins流水线语法 on 基于Jenkins的DevOps流水线实践</title>
+    <link>/pipelinesyntax/chapter02/</link>
+    <description>Recent content in Jenkins流水线语法 on 基于Jenkins的DevOps流水线实践</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    
+	<atom:link href="/pipelinesyntax/chapter02/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+  </channel>
+</rss>
