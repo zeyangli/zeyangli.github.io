@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>第五章 JenkinsPipeline   [待更新😄] on Jenkins2 Pipeline Docs</title>
+    <link>http://zeyangli.github.io/chapter5/</link>
+    <description>Recent content in 第五章 JenkinsPipeline   [待更新😄] on Jenkins2 Pipeline Docs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 17 Oct 2017 15:26:15 +0000</lastBuildDate>
+    
+	<atom:link href="http://zeyangli.github.io/chapter5/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>5-1 Jenkins Pipeline语法</title>
+      <link>http://zeyangli.github.io/chapter5/1/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter5/1/</guid>
+      <description>1. 认识Pipleine 1.1 Pipeline是什么？ Pipeline是Jenkins的核心功能，提供一组可扩展的工具。 通过Pipeline 的DS</description>
+    </item>
+    
+    <item>
+      <title>5-2 Jenkins 声明式与脚本式语法</title>
+      <link>http://zeyangli.github.io/chapter5/2/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter5/2/</guid>
+      <description>1. 声明式Pipeline 声明式Pipleine是最近添加到Jenkins流水线的，它在流水线子系统之上提供了一种更简单，更有主见的语法。 所有</description>
+    </item>
+    
+  </channel>
+</rss>

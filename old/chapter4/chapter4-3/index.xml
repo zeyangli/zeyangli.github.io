@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>4-3 Gitlab集成 on Jenkins2 Pipeline Docs</title>
+    <link>http://zeyangli.github.io/chapter4/chapter4-3/</link>
+    <description>Recent content in 4-3 Gitlab集成 on Jenkins2 Pipeline Docs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 17 Oct 2017 15:26:15 +0000</lastBuildDate>
+    
+	<atom:link href="http://zeyangli.github.io/chapter4/chapter4-3/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>4-3-1 Jenkins集成Gitlab SSO单点登录</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-3/1/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter4/chapter4-3/1/</guid>
+      <description>1.1 Gitlab配置 应用管理-&amp;gt;创建应用-&amp;gt;配置重定向url 1.2 Jenkins配置 配置前备份config.xml文件， 如果jenki</description>
+    </item>
+    
+    <item>
+      <title>4-3-2 WebHook集成</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-3/2/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter4/chapter4-3/2/</guid>
+      <description>2.1 Jenkins配置 安装gitlab hook插件 选择一个项目，在构建触发器模块选择通过gitlab触发。生成token 2.2 Gitlab配置 进入</description>
+    </item>
+    
+  </channel>
+</rss>

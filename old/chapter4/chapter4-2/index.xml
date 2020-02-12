@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>4-2 Ldap用户认证集成 on Jenkins2 Pipeline Docs</title>
+    <link>http://zeyangli.github.io/chapter4/chapter4-2/</link>
+    <description>Recent content in 4-2 Ldap用户认证集成 on Jenkins2 Pipeline Docs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 17 Oct 2017 15:26:15 +0000</lastBuildDate>
+    
+	<atom:link href="http://zeyangli.github.io/chapter4/chapter4-2/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>4-2-1 安装Ldap服务</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-2/1/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter4/chapter4-2/1/</guid>
+      <description>参考文档：https://www.cnblogs.com/mascot1/p/10498392.html 1.1 先决条件 #关闭SELINUX vim /etc/sysconfig/selinux #</description>
+    </item>
+    
+    <item>
+      <title>4-2-2 安装Ldap控制台</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-2/2/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter4/chapter4-2/2/</guid>
+      <description>2.1 先决条件 #安装apache yum -y install httpd #修改配置文件 vim /etc/httpd/conf/httpd.conf #AllowOverride all #启动服务测试 systemctl start httpd systemctl enable httpd curl 127.0.0.1 2.2 安装phpldapadmin #安装phpldapa</description>
+    </item>
+    
+    <item>
+      <title>4-2-3 配置Ldap服务</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-2/3/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter4/chapter4-2/3/</guid>
+      <description>2.3 更改配置文件 #修改配置文件 vim /etc/phpldapadmin/config.php $servers-&amp;gt;setValue(&amp;#39;server&amp;#39;,&amp;#39;host&amp;#39;,&amp;#39;127.0.0.1&amp;#39;); $servers-&amp;gt;setValue(&amp;#39;server&amp;#39;,&amp;#39;port&amp;#39;,389); $servers-&amp;gt;setValue(&amp;#39;server&amp;#39;,&amp;#39;base&amp;#39;,array(&amp;#39;dc=my-domain,dc=com&amp;#39;)); $servers-&amp;gt;setValue(&amp;#39;login&amp;#39;,&amp;#39;auth_type&amp;#39;,&amp;#39;session&amp;#39;); $servers-&amp;gt;setValue(&amp;#39;login&amp;#39;,&amp;#39;attr&amp;#39;,&amp;#39;dn&amp;#39;); $servers-&amp;gt;setValue(&amp;#39;login&amp;#39;,&amp;#39;attr&amp;#39;,&amp;#39;dn&amp;#39;); #注释掉 #修改httpd配置文件 vim /etc/httpd/conf.d/phpldapadmin.conf Alias /phpldapadmin /usr/share/phpldapadmin/htdocs Alias /ldapadmin /usr/share/phpldapadmin/htdocs &amp;lt;Directory /usr/share/phpldapadmin/htdocs&amp;gt; &amp;lt;IfModule mod_authz_core.c&amp;gt; # Apache 2.4 Require local Require ip 192.168.0 &amp;lt;/IfModule&amp;gt; &amp;lt;IfModule !mod_authz_core.c&amp;gt; # Apache 2.2 Order Deny,Allow Deny from all Allow</description>
+    </item>
+    
+    <item>
+      <title>4-2-4 创建OU组织用户数据</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-2/4/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter4/chapter4-2/4/</guid>
+      <description>参考文档：https://www.cnblogs.com/mascot1/p/10498460.html 3.1 创建OU 选择Organisatio</description>
+    </item>
+    
+    <item>
+      <title>4-2-5 Jenkins集成Ldap</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-2/5/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter4/chapter4-2/5/</guid>
+      <description>参考文档：https://www.cnblogs.com/mascot1/p/10498513.html 4.1 先决条件 准备一个adminDN账号</description>
+    </item>
+    
+  </channel>
+</rss>

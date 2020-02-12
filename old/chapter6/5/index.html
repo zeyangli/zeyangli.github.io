@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>6-5 Golang项目发布流水线 - Jenkins2 Pipeline Docs</title>
+<meta name="description" content="☁️☀️🌫🌩">
+<meta name="generator" content="Hugo 0.58.1" />
+<link href="http://zeyangli.github.ioindex.xml" rel="alternate" type="application/rss+xml">
+<link rel="canonical" href="http://zeyangli.github.io/chapter6/5/">
+<link rel="stylesheet" href="http://zeyangli.github.io/css/theme.min.css">
+<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<link rel="stylesheet" href="http://zeyangli.github.io/css/chroma.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="http://zeyangli.github.io/js/functions.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
+<script src="http://zeyangli.github.io/js/jquery.backtothetop/jquery.backtothetop.min.js"></script></head>
+<body>
+<div class="container"><header>
+<h1>Jenkins2 Pipeline Docs</h1>
+
+ <span class="version">Version 0.0.1</span>
+<a href="https://github.com/zeyangli/Jenkinsdocs" class="github"><i class="fab fa-github"></i></a>
+<p class="description">☁️☀️🌫🌩</p>
+
+</header>
+<div class="menu">
+<nav>
+<ul>
+<li><a href="/">Home</a></li></ul>
+</nav>
+</div>
+<div class="content-container">
+<main><h1>6-5 Golang项目发布流水线</h1>
+
+<p>demo地址: <a href="https://github.com/zeyangli/golang-helloworld-web.git">https://github.com/zeyangli/golang-helloworld-web.git</a></p>
+
+<p><img src="../static/image/golang/02.png" alt="images" /></p>
+
+<h2 id="安装开发环境">安装开发环境</h2>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">wget  https://dl.google.com/go/go1.10.2.linux-amd64.tar.gz
+tar zxf go1.10.2.linux-amd64.tar.gz -C /usr/local/
+
+vim /etc/profile
+<span class="nb">export</span> <span class="nv">GO_PATH</span><span class="o">=</span>/usr/local/go
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$GO_PATH</span>/bin
+
+<span class="nb">source</span> /etc/profile
+go version
+
+useradd golang</code></pre></div>
+<h2 id="jenkins项目">Jenkins项目</h2>
+
+<ul>
+<li>serviceName:  服务名称</li>
+<li>buildShell: 构建命令</li>
+<li>targetHosts: 发布目标主机</li>
+<li>user:  执行用户</li>
+<li>targetDir:  发布目标主机的工作目录</li>
+</ul>
+
+<p><img src="../static/image/golang/01.png" alt="images" /></p>
+
+<h2 id="jenkinsfile">Jenkinsfile</h2>
+
+<p>将build完成的二进制文件、static、service.sh生产压缩包。
+移动到发布目录，发布，解压包，启动服务。</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">String</span> <span class="n">buildShell</span> <span class="o">=</span> <span class="s2">&#34;${env.buildShell}&#34;</span>
+<span class="n">String</span> <span class="n">targetHosts</span> <span class="o">=</span> <span class="s2">&#34;${env.targetHosts}&#34;</span>
+<span class="n">String</span> <span class="n">targetDir</span> <span class="o">=</span> <span class="s2">&#34;${env.targetDir}&#34;</span>
+<span class="n">String</span> <span class="n">serviceName</span> <span class="o">=</span> <span class="s2">&#34;${env.serviceName}&#34;</span>
+<span class="n">String</span> <span class="n">user</span> <span class="o">=</span> <span class="s2">&#34;${env.user}&#34;</span>
+
+
+<span class="n">node</span><span class="o">(</span><span class="s2">&#34;master&#34;</span><span class="o">){</span>
+    <span class="n">stage</span><span class="o">(</span><span class="s2">&#34;checkout&#34;</span><span class="o">){</span>
+        <span class="n">checkout</span> <span class="n">scm</span>
+    <span class="o">}</span>
+    
+    <span class="n">stage</span><span class="o">(</span><span class="s2">&#34;build&#34;</span><span class="o">){</span>   
+        <span class="n">sh</span> <span class="s2">&#34;&#34;&#34; 
+</span><span class="s2">               export GOPATH=/usr/local/go
+</span><span class="s2">               export PATH=$PATH:\$GOPATH/bin
+</span><span class="s2">               ${buildShell}
+</span><span class="s2">               mkdir -p /srv/salt/${serviceName} 
+</span><span class="s2">               tar zcf ${serviceName}.tar.gz main static service.sh 
+</span><span class="s2">               rm -fr /srv/salt/${serviceName}/*
+</span><span class="s2">               mv ${serviceName}.tar.gz /srv/salt/${serviceName} 
+</span><span class="s2">           &#34;&#34;&#34;</span>
+    <span class="o">}</span>
+    
+    <span class="n">stage</span><span class="o">(</span><span class="s2">&#34;deploy&#34;</span><span class="o">){</span>
+        <span class="n">sh</span> <span class="s2">&#34; salt ${targetHosts} cmd.run &#39; rm -fr  ${targetDir}/* &#39;&#34;</span>
+        <span class="n">sh</span> <span class="s2">&#34; salt ${targetHosts} cp.get_file salt://${serviceName}/${serviceName}.tar.gz  ${targetDir}/${serviceName}.tar.gz mkdirs=True&#34;</span>
+        <span class="n">sh</span> <span class="s2">&#34; salt ${targetHosts} cmd.run &#39;chown ${user}:${user} ${targetDir} -R &#39;&#34;</span>
+        <span class="n">sh</span> <span class="s2">&#34; salt ${targetHosts} cmd.run &#39;su - ${user} -c \&#34; cd ${targetDir} &amp;&amp; tar zxf ${serviceName}.tar.gz \&#34; &#39;&#34;</span>
+        <span class="n">sh</span> <span class="s2">&#34; salt ${targetHosts} cmd.run &#39;su - ${user} -c \&#34;cd ${targetDir} &amp;&amp;  sh service.sh stop\&#34; &#39; &#34;</span>
+        <span class="n">sh</span> <span class="s2">&#34; salt ${targetHosts} cmd.run &#39;su - ${user} -c \&#34;cd ${targetDir} &amp;&amp;  sh service.sh start ${targetDir}\&#34; &#39; &#34;</span>
+    <span class="o">}</span>
+
+
+<span class="o">}</span></code></pre></div>
+<h2 id="服务控制脚本">服务控制脚本</h2>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#!/bin/bash
+</span><span class="cp"></span>
+<span class="nv">targetDir</span><span class="o">=</span><span class="nv">$2</span>
+
+start<span class="o">(){</span>
+    <span class="nb">cd</span> <span class="si">${</span><span class="nv">targetDir</span><span class="si">}</span>
+    nohup ./main &gt;&gt;/dev/null <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="p">&amp;</span> <span class="nb">echo</span> <span class="nv">$!</span> &gt; service.pid
+    <span class="nb">cd</span> -
+    
+<span class="o">}</span>
+
+
+stop<span class="o">(){</span>
+    <span class="nv">pid</span><span class="o">=</span><span class="sb">`</span>cat service.pid<span class="sb">`</span>
+    <span class="k">if</span> <span class="o">[</span> -z <span class="nv">$pid</span> <span class="o">]</span>
+    <span class="k">then</span> 
+        <span class="nb">echo</span> <span class="s2">&#34;pid&#34;</span>
+    <span class="k">else</span>
+        <span class="nb">kill</span> -9 <span class="si">${</span><span class="nv">pid</span><span class="si">}</span>
+        <span class="nb">kill</span> -9 <span class="si">${</span><span class="nv">pid</span><span class="si">}</span>
+        <span class="nb">kill</span> -9 <span class="si">${</span><span class="nv">pid</span><span class="si">}</span>
+    <span class="k">fi</span>
+<span class="o">}</span>
+
+
+<span class="k">case</span> <span class="nv">$1</span> in
+start<span class="o">)</span>
+    start
+    <span class="p">;;</span>
+stop<span class="o">)</span>
+    stop
+    <span class="p">;;</span>
+    
+restart<span class="o">)</span>
+    stop
+    sleep <span class="m">5</span>
+    start
+    <span class="p">;;</span>
+*<span class="o">)</span>
+    <span class="nb">echo</span> <span class="s2">&#34;[start|stop|restart]&#34;</span>
+    <span class="p">;;</span>
+    
+<span class="k">esac</span></code></pre></div>
+<h2 id="构建输出">构建输出</h2>
+
+<p><img src="../static/image/golang/03.png" alt="images" /></p>
+
+<pre><code>Started by user admin
+Obtained Jenkinsfile from git https://github.com/zeyangli/golang-helloworld-web.git
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/demo/demo-golang-service
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (checkout)
+[Pipeline] checkout
+using credential 24982560-17fc-4589-819b-bc5bea89da77
+ &gt; /root/bin/git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ &gt; /root/bin/git config remote.origin.url https://github.com/zeyangli/golang-helloworld-web.git # timeout=10
+Fetching upstream changes from https://github.com/zeyangli/golang-helloworld-web.git
+ &gt; /root/bin/git --version # timeout=10
+using GIT_ASKPASS to set credentials gitlab
+ &gt; /root/bin/git fetch --tags --progress https://github.com/zeyangli/golang-helloworld-web.git +refs/heads/*:refs/remotes/origin/*
+ &gt; /root/bin/git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ &gt; /root/bin/git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision 16a66ed8523442dd04bc6890fd30ff26455fa4c3 (refs/remotes/origin/master)
+ &gt; /root/bin/git config core.sparsecheckout # timeout=10
+ &gt; /root/bin/git checkout -f 16a66ed8523442dd04bc6890fd30ff26455fa4c3
+Commit message: &quot;Update Jenkinsfile&quot;
+ &gt; /root/bin/git rev-list --no-walk 09d6c9f794f1337f1ec0928106991efd5354ddf8 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (build)
+[Pipeline] sh
++ export GOPATH=/usr/local/go
++ GOPATH=/usr/local/go
++ export PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/go/bin
++ PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/go/bin
++ go clean
+warning: GOPATH set to GOROOT (/usr/local/go) has no effect
++ go build main.go
+warning: GOPATH set to GOROOT (/usr/local/go) has no effect
++ mkdir -p /srv/salt/demo-golang-service
++ tar zcf demo-golang-service.tar.gz main static service.sh
++ rm -fr /srv/salt/demo-golang-service/demo-golang-service.tar.gz
++ mv demo-golang-service.tar.gz /srv/salt/demo-golang-service
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (deploy)
+[Pipeline] sh
++ salt VM_0_12_centos cmd.run ' rm -fr  /opt/go/* '
+VM_0_12_centos:
+[Pipeline] sh
++ salt VM_0_12_centos cp.get_file salt://demo-golang-service/demo-golang-service.tar.gz /opt/go/demo-golang-service.tar.gz mkdirs=True
+VM_0_12_centos:
+    /opt/go/demo-golang-service.tar.gz
+[Pipeline] sh
++ salt VM_0_12_centos cmd.run 'chown golang:golang /opt/go -R '
+VM_0_12_centos:
+[Pipeline] sh
++ salt VM_0_12_centos cmd.run 'su - golang -c &quot; cd /opt/go &amp;&amp; tar zxf demo-golang-service.tar.gz &quot; '
+VM_0_12_centos:
+[Pipeline] sh
++ salt VM_0_12_centos cmd.run 'su - golang -c &quot;cd /opt/go &amp;&amp;  sh service.sh stop&quot; '
+VM_0_12_centos:
+    cat: service.pid: No such file or directory
+    pid
+[Pipeline] sh
++ salt VM_0_12_centos cmd.run 'su - golang -c &quot;cd /opt/go &amp;&amp;  sh service.sh start /opt/go&quot; '
+VM_0_12_centos:
+    /opt/go
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
+</code></pre>
+<div class="edit-meta">
+Last updated on 17 Oct 2017
+
+
+<br>
+Published on 17 Oct 2017
+<br><a href="https://github.com/zeyangli/Jenkinsdocs/edit/master/content/chapter6/5.md" class="edit-page"><i class="fas fa-pen-square"></i> Edit on GitHub</a></div><nav class="pagination"><a class="nav nav-prev" href="/chapter6/chapter6-6/3/" title="6-6-3 Jenkins发布流水线（Fir|蒲公英）"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - 6-6-3 Jenkins发布流水线（Fir|蒲公英）</a>
+<a class="nav nav-next" href="/chapter6/chapter6-6/" title="6-6 移动端Android项目发布流水线">Next - 6-6 移动端Android项目发布流水线 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</nav><footer><p class="powered">Powered by <a href="https://gohugo.io">Hugo</a>. Theme by <a href="https://themes.gohugo.io/hugo-theme-techdoc/">TechDoc</a>. Designed by <a href="https://github.com/thingsym/hugo-theme-techdoc">Thingsym</a>.</p>
+</footer>
+</main><div class="sidebar">
+<nav>
+<ul>
+<li class=""><a href="http://zeyangli.github.io">Home</a></li>
+
+<li class=""><a href="/chapter1/">第一章 认识Jenkins</a>
+<ul class="">
+<li class=""><a href="/chapter1/1/">1-1 Jenkins简介</a></li>
+<li class=""><a href="/chapter1/2/">1-2 Jenkins WebUI</a></li>
+<li class=""><a href="/chapter1/3/">1-3 Jenkins构建</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter2/">第二章 安装Jenkins</a>
+<ul class="">
+<li class=""><a href="/chapter2/1/">2-1 基于WAR包部署</a></li>
+<li class=""><a href="/chapter2/2/">2-2 基于MAC系统部署</a></li>
+<li class=""><a href="/chapter2/3/">2-3 基于Windows系统部署</a></li>
+<li class=""><a href="/chapter2/4/">2-4 基于Linux系统部署（推荐）</a></li>
+<li class=""><a href="/chapter2/5/">2-5 安装后配置</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter3/">第三章 管理Jenkins</a>
+<ul class="">
+<li class=""><a href="/chapter3/1/">3-1 用户管理</a></li>
+<li class=""><a href="/chapter3/2/">3-2 凭据管理</a></li>
+<li class=""><a href="/chapter3/3/">3-3 权限管理</a></li>
+<li class=""><a href="/chapter3/4/">3-4 项目管理</a></li>
+<li class=""><a href="/chapter3/5/">3-5 视图管理</a></li>
+<li class=""><a href="/chapter3/6/">3-6 插件管理</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter4/">第四章 Jenkins工具集成</a>
+<ul class="">
+
+<li class=""><a href="/chapter4/chapter4-1/">4-1 构建工具集成</a>
+<ul class="">
+<li class=""><a href="/chapter4/chapter4-1/1/">4-1-1 集成maven</a></li>
+<li class=""><a href="/chapter4/chapter4-1/2/">4-1-2 集成ant</a></li>
+<li class=""><a href="/chapter4/chapter4-1/3/">4-1-3 集成gradle</a></li>
+<li class=""><a href="/chapter4/chapter4-1/4/">4-1-4 集成npm</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter4/chapter4-2/">4-2 Ldap用户认证集成</a>
+<ul class="">
+<li class=""><a href="/chapter4/chapter4-2/1/">4-2-1 安装Ldap服务</a></li>
+<li class=""><a href="/chapter4/chapter4-2/2/">4-2-2 安装Ldap控制台</a></li>
+<li class=""><a href="/chapter4/chapter4-2/3/">4-2-3 配置Ldap服务</a></li>
+<li class=""><a href="/chapter4/chapter4-2/4/">4-2-4 创建OU组织用户数据</a></li>
+<li class=""><a href="/chapter4/chapter4-2/5/">4-2-5 Jenkins集成Ldap</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter4/chapter4-3/">4-3 Gitlab集成</a>
+<ul class="">
+<li class=""><a href="/chapter4/chapter4-3/1/">4-3-1 Jenkins集成Gitlab SSO单点登录</a></li>
+<li class=""><a href="/chapter4/chapter4-3/2/">4-3-2 WebHook集成</a></li>
+</ul>
+  
+</li>
+<li class=""><a href="/chapter4/2/">4-4 Jenkins集成SaltStack批量自动化发布</a></li>
+<li class=""><a href="/chapter4/3/">4-5 Jenkins制品库集成-Nexus</a></li>
+<li class=""><a href="/chapter4/4/">4-6 Jenkins集成禅道</a></li>
+<li class=""><a href="/chapter4/5/">4-7 Jenkins集成制品库-Artifactory</a></li>
+<li class=""><a href="/chapter4/6/">4-8 Jenkins集成SonarQube</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter5/">第五章 JenkinsPipeline   [待更新😄]</a>
+<ul class="">
+<li class=""><a href="/chapter5/1/">5-1 Jenkins Pipeline语法</a></li>
+<li class=""><a href="/chapter5/2/">5-2 Jenkins 声明式与脚本式语法</a></li>
+</ul>
+  
+</li>
+
+<li class="parent"><a href="/chapter6/">第六章 Jenkins流水线实践</a>
+<ul class="sub-menu">
+<li class=""><a href="/chapter6/1/">6-1 前端静态资源发布流水线</a></li>
+<li class=""><a href="/chapter6/2/">6-2 NodeJs项目发布流水线</a></li>
+<li class=""><a href="/chapter6/3/">6-3 Dotnet项目发布流水线</a></li>
+<li class=""><a href="/chapter6/4/">6-4 JAVA-Springboot项目发布流水线</a></li>
+<li class="active"><a href="/chapter6/5/">6-5 Golang项目发布流水线</a></li>
+
+<li class=""><a href="/chapter6/chapter6-6/">6-6 移动端Android项目发布流水线</a>
+<ul class="">
+<li class=""><a href="/chapter6/chapter6-6/1/">6-6-1 搭建Android打包环境（Centos）</a></li>
+<li class=""><a href="/chapter6/chapter6-6/2/">6-6-2 手动发布Android项目</a></li>
+<li class=""><a href="/chapter6/chapter6-6/3/">6-6-3 Jenkins发布流水线（Fir|蒲公英）</a></li>
+</ul>
+  
+</li>
+</ul>
+  
+</li>
+</ul>
+</nav>
+
+
+<div class="sidebar-footer"></div>
+</div>
+</div><a href="#" id="backtothetop-fixed" class="backtothetop"
+ data-backtothetop-duration="600"
+ data-backtothetop-easing="easeOutQuart"
+ data-backtothetop-fixed-fadeIn="1000"
+ data-backtothetop-fixed-fadeOut="1000"
+ data-backtothetop-fixed-bottom="10"
+ data-backtothetop-fixed-right="20">
+<span class="fa-layers fa-fw">
+<i class="fas fa-circle"></i>
+<i class="fas fa-arrow-circle-up"></i>
+</span></a>
+</div>
+</body>
+</html>

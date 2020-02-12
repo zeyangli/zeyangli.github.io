@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>第六章 Jenkins流水线实践 on Jenkins2 Pipeline Docs</title>
+    <link>http://zeyangli.github.io/chapter6/</link>
+    <description>Recent content in 第六章 Jenkins流水线实践 on Jenkins2 Pipeline Docs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 17 Oct 2017 15:26:15 +0000</lastBuildDate>
+    
+	<atom:link href="http://zeyangli.github.io/chapter6/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>6-1 前端静态资源发布流水线</title>
+      <link>http://zeyangli.github.io/chapter6/1/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter6/1/</guid>
+      <description>1. 项目设置 项目配置部分主要是将网站源代码上传到github，然后搭建用户访问的web服务器。再经过Jenkins配置发布代码到web服务器。</description>
+    </item>
+    
+    <item>
+      <title>6-2 NodeJs项目发布流水线</title>
+      <link>http://zeyangli.github.io/chapter6/2/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter6/2/</guid>
+      <description>1. 项目设置 项目配置部分主要是将网站源代码上传到github，然后搭建用户访问的web服务器。再经过Jenkins配置发布代码到web服务器。</description>
+    </item>
+    
+    <item>
+      <title>6-3 Dotnet项目发布流水线</title>
+      <link>http://zeyangli.github.io/chapter6/3/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter6/3/</guid>
+      <description>demo地址: https://github.com/zeyangli/dotnet-HelloWorld.git 安装dotnet开发环境（centos7） rpm --import https://packages.microsoft.com/keys/microsoft.asc [root@VM_0_12_centos ~]# cat /etc/yum.repos.d/dotnetdev.repo [packages-microsoft-com-prod] name=packages-microsoft-com-prod baseurl= https://packages.microsoft.com/yumrepos/microsoft-rhel7.3-prod enabled=1 gpgcheck=1 gpgkey=https://packages.microsoft.com/keys/microsoft.asc yum install libunwind libicu yum install dotnet-sdk-2.1.103 dotnet --version 创建Jenkins项目 Jenkinsfile String buildShell = &amp;#34;${env.buildShell}&amp;#34; String targetDir</description>
+    </item>
+    
+    <item>
+      <title>6-4 JAVA-Springboot项目发布流水线</title>
+      <link>http://zeyangli.github.io/chapter6/4/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter6/4/</guid>
+      <description>demo地址: https://github.com/zeyangli/springboot-helloworld.git 创建Jenkins项目 serviceName: 服务的名称 buildShell : 项目打包命令 targetHosts: 应用发布主机（需安装salt-minion） targetDir: 应用的发布目录 user: 发布用户 port:</description>
+    </item>
+    
+    <item>
+      <title>6-5 Golang项目发布流水线</title>
+      <link>http://zeyangli.github.io/chapter6/5/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter6/5/</guid>
+      <description>demo地址: https://github.com/zeyangli/golang-helloworld-web.git 安装开发环境 wget https://dl.google.com/go/go1.10.2.linux-amd64.tar.gz tar zxf go1.10.2.linux-amd64.tar.gz -C /usr/local/ vim /etc/profile export GO_PATH=/usr/local/go export PATH=$PATH:$GO_PATH/bin source /etc/profile go version useradd golang Jenkins项目 serviceName: 服务名称 buildShell: 构建命令 targetHosts: 发布目标主机 user: 执行用户 targetDir: 发布目标主</description>
+    </item>
+    
+  </channel>
+</rss>

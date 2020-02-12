@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>6-6-3 Jenkins发布流水线（Fir|蒲公英） - Jenkins2 Pipeline Docs</title>
+<meta name="description" content="☁️☀️🌫🌩">
+<meta name="generator" content="Hugo 0.58.1" />
+<link href="http://zeyangli.github.ioindex.xml" rel="alternate" type="application/rss+xml">
+<link rel="canonical" href="http://zeyangli.github.io/chapter6/chapter6-6/3/">
+<link rel="stylesheet" href="http://zeyangli.github.io/css/theme.min.css">
+<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<link rel="stylesheet" href="http://zeyangli.github.io/css/chroma.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="http://zeyangli.github.io/js/functions.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
+<script src="http://zeyangli.github.io/js/jquery.backtothetop/jquery.backtothetop.min.js"></script></head>
+<body>
+<div class="container"><header>
+<h1>Jenkins2 Pipeline Docs</h1>
+
+ <span class="version">Version 0.0.1</span>
+<a href="https://github.com/zeyangli/Jenkinsdocs" class="github"><i class="fab fa-github"></i></a>
+<p class="description">☁️☀️🌫🌩</p>
+
+</header>
+<div class="menu">
+<nav>
+<ul>
+<li><a href="/">Home</a></li></ul>
+</nav>
+</div>
+<div class="content-container">
+<main><h1>6-6-3 Jenkins发布流水线（Fir|蒲公英）</h1>
+
+<h2 id="1-项目配置">1.项目配置</h2>
+
+<h3 id="1-1-项目规范">1.1 项目规范</h3>
+
+<ul>
+<li>打包存放路径: 统一在app/build/outputs/apk/[debug|release]目录下。</li>
+</ul>
+
+<h3 id="1-2-编写上传包脚本-支持fim-pgyer">1.2 编写上传包脚本（支持fim/pgyer）</h3>
+
+<p>参考文档：
+- <a href="https://fir.im/docs/publish">fir.im平台发布应用API文档</a>
+- <a href="https://www.pgyer.com/doc/api#uploadApp">蒲公英平台发布应用API文档</a></p>
+
+<ul>
+<li>获取上传凭证: 获取cert.binary中的数据。</li>
+
+<li><p>上传APK: 定义包信息并上传。</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="c1">#coding:utf8</span>
+
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">requests.packages.urllib3.exceptions</span> <span class="kn">import</span> <span class="n">InsecureRequestWarning</span>
+<span class="n">requests</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">urllib3</span><span class="o">.</span><span class="n">disable_warnings</span><span class="p">(</span><span class="n">InsecureRequestWarning</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">ApkManage</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="s2">&#34;http://api.fir.im/apps&#34;</span>
+
+<span class="k">def</span> <span class="nf">getCert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">dataargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span> <span class="p">:</span> <span class="s1">&#39;android&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;bundle_id&#39;</span> <span class="p">:</span> <span class="n">bundleid</span><span class="p">,</span>
+                <span class="s1">&#39;api_token&#39;</span> <span class="p">:</span> <span class="n">apitoken</span><span class="p">}</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">dataargs</span><span class="p">)</span>
+    <span class="c1">#print(response.status_code,response.text)</span>
+    <span class="n">cert</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    <span class="c1">#print(cert)</span>
+
+    <span class="k">return</span> <span class="n">cert</span><span class="p">[</span><span class="s1">&#39;cert&#39;</span><span class="p">][</span><span class="s1">&#39;binary&#39;</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">uploadFir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">certdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getCert</span><span class="p">()</span>
+        
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;upload apk to fir......&#34;</span><span class="p">)</span>
+        <span class="n">apkfile</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;file&#39;</span> <span class="p">:</span> <span class="nb">open</span><span class="p">(</span><span class="n">apkpath</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)}</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;key&#34;</span>   <span class="p">:</span> <span class="n">certdata</span><span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">],</span>
+                  <span class="s2">&#34;token&#34;</span> <span class="p">:</span> <span class="n">certdata</span><span class="p">[</span><span class="s1">&#39;token&#39;</span><span class="p">],</span>
+                  <span class="s2">&#34;x:name&#34;</span><span class="p">:</span> <span class="n">appname</span> <span class="p">,</span>
+                  <span class="s2">&#34;x:build&#34;</span> <span class="p">:</span> <span class="n">buildid</span><span class="p">,</span>
+                  <span class="s2">&#34;x:version&#34;</span> <span class="p">:</span> <span class="n">appversion</span><span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">certdata</span><span class="p">[</span><span class="s1">&#39;upload_url&#39;</span><span class="p">],</span><span class="n">files</span><span class="o">=</span><span class="n">apkfile</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">params</span><span class="p">,</span><span class="n">verify</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span> <span class="o">==</span> <span class="mi">200</span> <span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&#34;upload success!  return --&gt;&#34;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&#34;upload error! return --&gt;&#34;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">))</span>
+
+
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&#34;error: &#34;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">uploadPgyer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://qiniu-storage.pgyer.com/apiv1/app/upload&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1">#print(&#34;upload apk to pgyer ......&#34;)</span>
+        <span class="n">apkfile</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;file&#39;</span> <span class="p">:</span> <span class="nb">open</span><span class="p">(</span><span class="n">apkpath</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)}</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;uKey&#34;</span> <span class="p">:</span> <span class="s1">&#39;7b70873bb4d6xxxxx1d2ae5&#39;</span><span class="p">,</span>
+                  <span class="s2">&#34;_api_key&#34;</span> <span class="p">:</span> <span class="s1">&#39;a9acab611e1xxxxxxx5cae360a5ab&#39;</span><span class="p">}</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">files</span><span class="o">=</span><span class="n">apkfile</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">params</span><span class="p">,</span><span class="n">verify</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="c1">#print(response.text)</span>
+        <span class="n">qrcodes</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;appQRCodeURL&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">)</span> <span class="o">==</span> <span class="mi">200</span> <span class="p">:</span>
+            <span class="c1">#print(&#34;upload success!  return --&gt;&#34; + str(response.status_code))</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">qrcodes</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&#34;upload error! return --&gt;&#34;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">))</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span>
+       
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="n">bundleid</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">apitoken</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">apkpath</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">appname</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">buildid</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">appversion</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+<span class="n">platform</span><span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+
+<span class="n">server</span> <span class="o">=</span> <span class="n">ApkManage</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">platform</span> <span class="o">==</span> <span class="s1">&#39;fir&#39;</span><span class="p">:</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">uploadFir</span><span class="p">()</span>
+<span class="k">elif</span> <span class="n">platform</span> <span class="o">==</span> <span class="s1">&#39;pgyer&#39;</span><span class="p">:</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">uploadPgyer</span><span class="p">()</span></code></pre></div></li>
+</ul>
+
+<p>使用方式</p>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">python upapk.py demo-android-app-10 65d7edxxxxxxx7c4fabda25 app.apk  demo-android-app <span class="m">10</span> <span class="m">10</span>.12 fir</code></pre></div>
+<h3 id="1-3-编写jenkinsfile">1.3 编写Jenkinsfile</h3>
+
+<p>Jenkinsfile简单的包含三个stage，分别是：</p>
+
+<ul>
+<li>Checkout: 检出代码（这种方式是直接获取Jenkinsfile的项目地址，Jenkinsfile在项目中可以这样写）。</li>
+<li>Build: 构建打包 (执行gradle构建命令)。</li>
+
+<li><p>Upload: 上传包到平台(更改包名，调用脚本上传)。</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">node</span><span class="o">(</span><span class="s2">&#34;master&#34;</span><span class="o">){</span>
+<span class="n">stage</span><span class="o">(</span><span class="s2">&#34;Checkout&#34;</span><span class="o">){</span>
+<span class="n">checkout</span> <span class="n">scm</span>
+<span class="o">}</span>
+
+<span class="n">stage</span><span class="o">(</span><span class="s2">&#34;Build&#34;</span><span class="o">){</span>
+<span class="n">sh</span> <span class="s1">&#39;chmod +x ./gradlew &#39;</span>
+<span class="n">sh</span> <span class="s2">&#34; ${params.buildShell} &#34;</span>
+<span class="o">}</span>
+  
+<span class="n">stage</span><span class="o">(</span><span class="s2">&#34;Upload&#34;</span><span class="o">){</span>
+  <span class="cm">/*sh &#34;&#34;&#34; 
+</span><span class="cm">     mv app/build/outputs/apk/debug/app-debug.apk ./${params.apkName}.apk
+</span><span class="cm">     python uploadapk.py ${params.bundleId} \
+</span><span class="cm">     ${params.apiToken} &#34;${params.apkName}.apk&#34; \
+</span><span class="cm">     &#34;${params.apkName}&#34; &#34;${BUILD_ID}&#34; \
+</span><span class="cm">     &#34;${params.apkVersion}&#34; &#34;${params.appPlatform}&#34;
+</span><span class="cm">         
+</span><span class="cm">         
+</span><span class="cm">     &#34;&#34;&#34;*/</span>
+  <span class="n">sh</span> <span class="s2">&#34;mv app/build/outputs/apk/debug/app-debug.apk ./${params.apkName}.apk&#34;</span>
+  <span class="kt">def</span> <span class="n">result</span> 
+  <span class="n">result</span> <span class="o">=</span> <span class="n">sh</span> <span class="nl">returnStdout:</span> <span class="kc">true</span><span class="o">,</span> <span class="nl">script:</span> <span class="s2">&#34;&#34;&#34;python uploadapk.py ${params.bundleId} \
+</span><span class="s2">                                             ${params.apiToken} &#34;${params.apkName}.apk&#34; \
+</span><span class="s2">                                             &#34;${params.apkName}&#34; &#34;${BUILD_ID}&#34; \
+</span><span class="s2">                                             &#34;${params.apkVersion}&#34; &#34;${params.appPlatform}&#34; &#34;&#34;&#34;</span>
+       
+  <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">-</span> <span class="s2">&#34;\n&#34;</span>
+  <span class="n">println</span><span class="o">(</span><span class="n">result</span><span class="o">)</span>
+<span class="n">currentBuild</span><span class="o">.</span><span class="na">description</span><span class="o">=</span><span class="s2">&#34;&lt;img src=${result}&gt;&#34;</span>
+<span class="o">}</span>
+<span class="o">}</span></code></pre></div></li>
+</ul>
+
+<h2 id="2-jenkins配置">2.Jenkins配置</h2>
+
+<h3 id="2-1-添加全局变量-android-sdk">2.1 添加全局变量(android sdk)</h3>
+
+<p>导航-&gt;系统设置
+<img src="../../static/image/android/6.png" alt="images" /></p>
+
+<h3 id="2-2-创建pipeline">2.2 创建Pipeline</h3>
+
+<p><img src="../../static/image/android/5.png" alt="images" />
+这个项目因为Jenkinsfile和项目代码放在了一起，所以这个项目上的srcType、srcUrl、branchName参数暂时无效。</p>
+
+<ul>
+<li><p>buildShell : 打包命令(debug|release)。</p>
+
+<pre><code>./gradlew clean assembleDebug
+./gradlew clean assembleRelease
+</code></pre></li>
+
+<li><p>bundleId: App的bundleId（发布新应用时必填)。</p></li>
+
+<li><p>apiToken: 在fir.im平台创建。
+获取用户token: 用户-&gt;apitoken
+<img src="../../static/image/android/8.png" alt="images" /></p></li>
+
+<li><p>apkVersion : apk的版本。</p></li>
+
+<li><p>apkName: apk的名称。</p></li>
+</ul>
+
+<h2 id="4-构建测试">4.构建测试</h2>
+
+<p>检出代码
+<img src="../../static/image/android/9.png" alt="images" />
+构建打包
+<img src="../../static/image/android/10.png" alt="images" />
+发布APK
+<img src="../../static/image/android/11.png" alt="images" /></p>
+
+<p>Fir平台
+<img src="../../static/image/android/12.png" alt="images" />
+蒲公英平台
+<img src="../../static/image/android/13.png" alt="images" /></p>
+
+<p>二维码
+<img src="../../static/image/android/14.png" alt="images" /></p>
+<div class="edit-meta">
+Last updated on 17 Oct 2017
+
+
+<br>
+Published on 17 Oct 2017
+<br><a href="https://github.com/zeyangli/Jenkinsdocs/edit/master/content/chapter6/chapter6-6/3.md" class="edit-page"><i class="fas fa-pen-square"></i> Edit on GitHub</a></div><nav class="pagination"><a class="nav nav-prev" href="/chapter6/chapter6-6/2/" title="6-6-2 手动发布Android项目"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - 6-6-2 手动发布Android项目</a>
+<a class="nav nav-next" href="/chapter6/chapter6-6/1/" title="6-6-1 搭建Android打包环境（Centos）">Next - 6-6-1 搭建Android打包环境（Centos） <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</nav><footer><p class="powered">Powered by <a href="https://gohugo.io">Hugo</a>. Theme by <a href="https://themes.gohugo.io/hugo-theme-techdoc/">TechDoc</a>. Designed by <a href="https://github.com/thingsym/hugo-theme-techdoc">Thingsym</a>.</p>
+</footer>
+</main><div class="sidebar">
+<nav>
+<ul>
+<li class=""><a href="http://zeyangli.github.io">Home</a></li>
+
+<li class=""><a href="/chapter1/">第一章 认识Jenkins</a>
+<ul class="">
+<li class=""><a href="/chapter1/1/">1-1 Jenkins简介</a></li>
+<li class=""><a href="/chapter1/2/">1-2 Jenkins WebUI</a></li>
+<li class=""><a href="/chapter1/3/">1-3 Jenkins构建</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter2/">第二章 安装Jenkins</a>
+<ul class="">
+<li class=""><a href="/chapter2/1/">2-1 基于WAR包部署</a></li>
+<li class=""><a href="/chapter2/2/">2-2 基于MAC系统部署</a></li>
+<li class=""><a href="/chapter2/3/">2-3 基于Windows系统部署</a></li>
+<li class=""><a href="/chapter2/4/">2-4 基于Linux系统部署（推荐）</a></li>
+<li class=""><a href="/chapter2/5/">2-5 安装后配置</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter3/">第三章 管理Jenkins</a>
+<ul class="">
+<li class=""><a href="/chapter3/1/">3-1 用户管理</a></li>
+<li class=""><a href="/chapter3/2/">3-2 凭据管理</a></li>
+<li class=""><a href="/chapter3/3/">3-3 权限管理</a></li>
+<li class=""><a href="/chapter3/4/">3-4 项目管理</a></li>
+<li class=""><a href="/chapter3/5/">3-5 视图管理</a></li>
+<li class=""><a href="/chapter3/6/">3-6 插件管理</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter4/">第四章 Jenkins工具集成</a>
+<ul class="">
+
+<li class=""><a href="/chapter4/chapter4-1/">4-1 构建工具集成</a>
+<ul class="">
+<li class=""><a href="/chapter4/chapter4-1/1/">4-1-1 集成maven</a></li>
+<li class=""><a href="/chapter4/chapter4-1/2/">4-1-2 集成ant</a></li>
+<li class=""><a href="/chapter4/chapter4-1/3/">4-1-3 集成gradle</a></li>
+<li class=""><a href="/chapter4/chapter4-1/4/">4-1-4 集成npm</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter4/chapter4-2/">4-2 Ldap用户认证集成</a>
+<ul class="">
+<li class=""><a href="/chapter4/chapter4-2/1/">4-2-1 安装Ldap服务</a></li>
+<li class=""><a href="/chapter4/chapter4-2/2/">4-2-2 安装Ldap控制台</a></li>
+<li class=""><a href="/chapter4/chapter4-2/3/">4-2-3 配置Ldap服务</a></li>
+<li class=""><a href="/chapter4/chapter4-2/4/">4-2-4 创建OU组织用户数据</a></li>
+<li class=""><a href="/chapter4/chapter4-2/5/">4-2-5 Jenkins集成Ldap</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter4/chapter4-3/">4-3 Gitlab集成</a>
+<ul class="">
+<li class=""><a href="/chapter4/chapter4-3/1/">4-3-1 Jenkins集成Gitlab SSO单点登录</a></li>
+<li class=""><a href="/chapter4/chapter4-3/2/">4-3-2 WebHook集成</a></li>
+</ul>
+  
+</li>
+<li class=""><a href="/chapter4/2/">4-4 Jenkins集成SaltStack批量自动化发布</a></li>
+<li class=""><a href="/chapter4/3/">4-5 Jenkins制品库集成-Nexus</a></li>
+<li class=""><a href="/chapter4/4/">4-6 Jenkins集成禅道</a></li>
+<li class=""><a href="/chapter4/5/">4-7 Jenkins集成制品库-Artifactory</a></li>
+<li class=""><a href="/chapter4/6/">4-8 Jenkins集成SonarQube</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter5/">第五章 JenkinsPipeline   [待更新😄]</a>
+<ul class="">
+<li class=""><a href="/chapter5/1/">5-1 Jenkins Pipeline语法</a></li>
+<li class=""><a href="/chapter5/2/">5-2 Jenkins 声明式与脚本式语法</a></li>
+</ul>
+  
+</li>
+
+<li class="parent"><a href="/chapter6/">第六章 Jenkins流水线实践</a>
+<ul class="sub-menu">
+<li class=""><a href="/chapter6/1/">6-1 前端静态资源发布流水线</a></li>
+<li class=""><a href="/chapter6/2/">6-2 NodeJs项目发布流水线</a></li>
+<li class=""><a href="/chapter6/3/">6-3 Dotnet项目发布流水线</a></li>
+<li class=""><a href="/chapter6/4/">6-4 JAVA-Springboot项目发布流水线</a></li>
+<li class=""><a href="/chapter6/5/">6-5 Golang项目发布流水线</a></li>
+
+<li class="parent"><a href="/chapter6/chapter6-6/">6-6 移动端Android项目发布流水线</a>
+<ul class="sub-menu">
+<li class=""><a href="/chapter6/chapter6-6/1/">6-6-1 搭建Android打包环境（Centos）</a></li>
+<li class=""><a href="/chapter6/chapter6-6/2/">6-6-2 手动发布Android项目</a></li>
+<li class="active"><a href="/chapter6/chapter6-6/3/">6-6-3 Jenkins发布流水线（Fir|蒲公英）</a></li>
+</ul>
+  
+</li>
+</ul>
+  
+</li>
+</ul>
+</nav>
+
+
+<div class="sidebar-footer"></div>
+</div>
+</div><a href="#" id="backtothetop-fixed" class="backtothetop"
+ data-backtothetop-duration="600"
+ data-backtothetop-easing="easeOutQuart"
+ data-backtothetop-fixed-fadeIn="1000"
+ data-backtothetop-fixed-fadeOut="1000"
+ data-backtothetop-fixed-bottom="10"
+ data-backtothetop-fixed-right="20">
+<span class="fa-layers fa-fw">
+<i class="fas fa-circle"></i>
+<i class="fas fa-arrow-circle-up"></i>
+</span></a>
+</div>
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>6-4 JAVA-Springboot项目发布流水线 - Jenkins2 Pipeline Docs</title>
+<meta name="description" content="☁️☀️🌫🌩">
+<meta name="generator" content="Hugo 0.58.1" />
+<link href="http://zeyangli.github.ioindex.xml" rel="alternate" type="application/rss+xml">
+<link rel="canonical" href="http://zeyangli.github.io/chapter6/4/">
+<link rel="stylesheet" href="http://zeyangli.github.io/css/theme.min.css">
+<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<link rel="stylesheet" href="http://zeyangli.github.io/css/chroma.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="http://zeyangli.github.io/js/functions.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
+<script src="http://zeyangli.github.io/js/jquery.backtothetop/jquery.backtothetop.min.js"></script></head>
+<body>
+<div class="container"><header>
+<h1>Jenkins2 Pipeline Docs</h1>
+
+ <span class="version">Version 0.0.1</span>
+<a href="https://github.com/zeyangli/Jenkinsdocs" class="github"><i class="fab fa-github"></i></a>
+<p class="description">☁️☀️🌫🌩</p>
+
+</header>
+<div class="menu">
+<nav>
+<ul>
+<li><a href="/">Home</a></li></ul>
+</nav>
+</div>
+<div class="content-container">
+<main><h1>6-4 JAVA-Springboot项目发布流水线</h1>
+
+<p>demo地址: <a href="https://github.com/zeyangli/springboot-helloworld.git">https://github.com/zeyangli/springboot-helloworld.git</a></p>
+
+<p><img src="../static/image/springboot/01.png" alt="iamges" /></p>
+
+<h2 id="创建jenkins项目">创建Jenkins项目</h2>
+
+<ul>
+<li>serviceName: 服务的名称</li>
+<li>buildShell : 项目打包命令</li>
+<li>targetHosts: 应用发布主机（需安装salt-minion）</li>
+<li>targetDir: 应用的发布目录</li>
+<li>user: 发布用户</li>
+<li>port: 应用的启动端口</li>
+</ul>
+
+<p><img src="../static/image/springboot/02.png" alt="iamges" /></p>
+
+<h2 id="jenkinsfile">Jenkinsfile</h2>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">String</span> <span class="n">buildShell</span> <span class="o">=</span> <span class="s2">&#34;${env.buildShell}&#34;</span>
+<span class="n">String</span> <span class="n">targetHosts</span> <span class="o">=</span> <span class="s2">&#34;${env.targetHosts}&#34;</span>
+<span class="n">String</span> <span class="n">targetDir</span> <span class="o">=</span> <span class="s2">&#34;${env.targetDir}&#34;</span>
+<span class="n">String</span> <span class="n">serviceName</span> <span class="o">=</span> <span class="s2">&#34;${env.serviceName}&#34;</span>
+<span class="n">String</span> <span class="n">user</span> <span class="o">=</span> <span class="s2">&#34;${env.user}&#34;</span>
+<span class="n">String</span> <span class="n">port</span> <span class="o">=</span> <span class="s2">&#34;${env.port}&#34;</span>
+<span class="kt">def</span> <span class="n">jarName</span>
+
+<span class="nf">node</span><span class="o">(</span><span class="s2">&#34;master&#34;</span><span class="o">){</span>
+    <span class="c1">//检出代码
+</span><span class="c1"></span>    <span class="n">stage</span><span class="o">(</span><span class="s2">&#34;checkout&#34;</span><span class="o">){</span>
+        <span class="n">checkout</span> <span class="n">scm</span>
+    <span class="o">}</span>
+    
+    <span class="c1">//执行构建
+</span><span class="c1"></span>    <span class="n">stage</span><span class="o">(</span><span class="s2">&#34;build&#34;</span><span class="o">){</span>
+        <span class="kt">def</span> <span class="n">mvnHome</span> <span class="o">=</span> <span class="n">tool</span> <span class="s1">&#39;M3&#39;</span>
+        <span class="n">sh</span> <span class="s2">&#34; ${mvnHome}/bin/mvn ${buildShell} &#34;</span>
+        
+        <span class="n">jarName</span> <span class="o">=</span> <span class="n">sh</span> <span class="nl">returnStdout:</span> <span class="kc">true</span><span class="o">,</span> <span class="nl">script:</span> <span class="s2">&#34;cd target &amp;&amp; ls *.jar&#34;</span>
+        <span class="n">jarName</span> <span class="o">=</span> <span class="n">jarName</span> <span class="o">-</span> <span class="s2">&#34;\n&#34;</span>
+        <span class="c1">//归档制品
+</span><span class="c1"></span>        <span class="n">sh</span> <span class="s2">&#34;mkdir -p /srv/salt/${serviceName} &amp;&amp; mv  service.sh target/${jarName} /srv/salt/${serviceName} &#34;</span>
+    <span class="o">}</span>
+    
+    <span class="c1">//发布应用
+</span><span class="c1"></span>    <span class="n">stage</span><span class="o">(</span><span class="s2">&#34;deploy&#34;</span><span class="o">){</span>
+        <span class="n">sh</span> <span class="s2">&#34; salt ${targetHosts} cmd.run &#39; rm -fr  ${targetDir}/*.jar &#39;&#34;</span>
+        <span class="n">sh</span> <span class="s2">&#34; salt ${targetHosts} cp.get_file salt://${serviceName}/${jarName}  ${targetDir}/${jarName} mkdirs=True&#34;</span>
+        <span class="n">sh</span> <span class="s2">&#34; salt ${targetHosts} cp.get_file salt://${serviceName}/service.sh  ${targetDir}/service.sh mkdirs=True&#34;</span>
+        <span class="n">sh</span> <span class="s2">&#34; salt ${targetHosts} cmd.run &#39;chown ${user}:${user} ${targetDir} -R &#39;&#34;</span>
+        <span class="n">sh</span> <span class="s2">&#34; salt ${targetHosts} cmd.run &#39;su - ${user} -c \&#34;cd ${targetDir} &amp;&amp;  sh service.sh stop\&#34; &#39; &#34;</span>
+        <span class="n">sh</span> <span class="s2">&#34; salt ${targetHosts} cmd.run &#39;su - ${user} -c \&#34;cd ${targetDir} &amp;&amp;  sh service.sh start ${jarName} ${port} ${targetDir}\&#34; &#39; &#34;</span>
+    <span class="o">}</span>
+
+
+<span class="o">}</span></code></pre></div>
+<h2 id="服务启动脚本">服务启动脚本</h2>
+<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell"><span class="cp">#!/bin/bash
+</span><span class="cp"></span>
+<span class="nv">app</span><span class="o">=</span><span class="nv">$2</span>
+<span class="nv">port</span><span class="o">=</span><span class="nv">$3</span>
+<span class="nv">targetDir</span><span class="o">=</span><span class="nv">$4</span>
+
+start<span class="o">(){</span>
+    <span class="nb">cd</span> <span class="si">${</span><span class="nv">targetDir</span><span class="si">}</span>
+    nohup java -jar <span class="si">${</span><span class="nv">app</span><span class="si">}</span> --server.port<span class="o">=</span><span class="si">${</span><span class="nv">port</span><span class="si">}</span> &gt;&gt;/dev/null <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="p">&amp;</span> <span class="nb">echo</span> <span class="nv">$!</span> &gt; service.pid
+    <span class="nb">cd</span> -
+    
+<span class="o">}</span>
+
+stop<span class="o">(){</span>
+    <span class="nv">pid</span><span class="o">=</span><span class="sb">`</span>cat service.pid<span class="sb">`</span>
+    <span class="k">if</span> <span class="o">[</span> -z <span class="nv">$pid</span> <span class="o">]</span>
+    <span class="k">then</span> 
+        <span class="nb">echo</span> <span class="s2">&#34;pid&#34;</span>
+    <span class="k">else</span>
+        <span class="nb">kill</span> -9 <span class="si">${</span><span class="nv">pid</span><span class="si">}</span>
+        <span class="nb">kill</span> -9 <span class="si">${</span><span class="nv">pid</span><span class="si">}</span>
+        <span class="nb">kill</span> -9 <span class="si">${</span><span class="nv">pid</span><span class="si">}</span>
+    <span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="nv">$1</span> in
+	start<span class="o">)</span>
+	    start
+	    <span class="p">;;</span>
+	stop<span class="o">)</span>
+	    stop
+	    <span class="p">;;</span>
+	    
+	restart<span class="o">)</span>
+	    stop
+	    sleep <span class="m">5</span>
+	    start
+	    <span class="p">;;</span>
+	*<span class="o">)</span>
+	    <span class="nb">echo</span> <span class="s2">&#34;[start|stop|restart]&#34;</span>
+	    <span class="p">;;</span>
+    
+<span class="k">esac</span></code></pre></div>
+<h2 id="构建日志">构建日志</h2>
+
+<p><img src="../static/image/springboot/03.png" alt="iamges" /></p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">Started by user admin
+Obtained Jenkinsfile from git https://github.com/zeyangli/springboot-helloworld.git
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/demo/demo-springboot-service
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (checkout)
+[Pipeline] checkout
+using credential 24982560-17fc-4589-819b-bc5bea89da77
+ &gt; /root/bin/git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ &gt; /root/bin/git config remote.origin.url https://github.com/zeyangli/springboot-helloworld.git # timeout=10
+Fetching upstream changes from https://github.com/zeyangli/springboot-helloworld.git
+ &gt; /root/bin/git --version # timeout=10
+using GIT_ASKPASS to set credentials gitlab
+ &gt; /root/bin/git fetch --tags --progress https://github.com/zeyangli/springboot-helloworld.git +refs/heads/*:refs/remotes/origin/*
+ &gt; /root/bin/git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ &gt; /root/bin/git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision 552e73b0d8c9ef58f131b57f8e35c436f272ce14 (refs/remotes/origin/master)
+ &gt; /root/bin/git config core.sparsecheckout # timeout=10
+ &gt; /root/bin/git checkout -f 552e73b0d8c9ef58f131b57f8e35c436f272ce14
+Commit message: &#34;Update Jenkinsfile&#34;
+ &gt; /root/bin/git rev-list --no-walk 974b431aa8579f896e182e34d1b6fba895129b7d # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (build)
+[Pipeline] tool
+[Pipeline] sh
++ /usr/local/apache-maven-3.6.0/bin/mvn clean install -DskipTests
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------&lt; com.gazgeek:helloworld &gt;-----------------------
+[INFO] Building helloworld 0.0.1-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ helloworld ---
+[INFO] Deleting /var/lib/jenkins/workspace/demo/demo-springboot-service/target
+[INFO] 
+[INFO] --- jacoco-maven-plugin:0.7.2.201409121644:prepare-agent (prepare-agent) @ helloworld ---
+[INFO] argLine set to -javaagent:/root/.m2/repository/org/jacoco/org.jacoco.agent/0.7.2.201409121644/org.jacoco.agent-0.7.2.201409121644-runtime.jar=destfile=/var/lib/jenkins/workspace/demo/demo-springboot-service/target/jacoco.exec
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ helloworld ---
+[INFO] Using &#39;UTF-8&#39; encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] Copying 0 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ helloworld ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 2 source files to /var/lib/jenkins/workspace/demo/demo-springboot-service/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ helloworld ---
+[INFO] Using &#39;UTF-8&#39; encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /var/lib/jenkins/workspace/demo/demo-springboot-service/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ helloworld ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 3 source files to /var/lib/jenkins/workspace/demo/demo-springboot-service/target/test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.17:test (default-test) @ helloworld ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- maven-jar-plugin:2.5:jar (default-jar) @ helloworld ---
+[INFO] Building jar: /var/lib/jenkins/workspace/demo/demo-springboot-service/target/helloworld-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:1.2.2.RELEASE:repackage (default) @ helloworld ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ helloworld ---
+[INFO] Installing /var/lib/jenkins/workspace/demo/demo-springboot-service/target/helloworld-0.0.1-SNAPSHOT.jar to /root/.m2/repository/com/gazgeek/helloworld/0.0.1-SNAPSHOT/helloworld-0.0.1-SNAPSHOT.jar
+[INFO] Installing /var/lib/jenkins/workspace/demo/demo-springboot-service/pom.xml to /root/.m2/repository/com/gazgeek/helloworld/0.0.1-SNAPSHOT/helloworld-0.0.1-SNAPSHOT.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  5.497 s
+[INFO] Finished at: 2019-04-05T07:41:23+08:00
+[INFO] ------------------------------------------------------------------------
+[Pipeline] sh
++ cd target
++ ls helloworld-0.0.1-SNAPSHOT.jar
+[Pipeline] sh
++ mkdir -p /srv/salt/demo-springboot-service
++ mv service.sh target/helloworld-0.0.1-SNAPSHOT.jar /srv/salt/demo-springboot-service
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (deploy)
+[Pipeline] sh
++ salt VM_0_12_centos cmd.run &#39; rm -fr  /opt/javatest/*.jar &#39;
+VM_0_12_centos:
+[Pipeline] sh
++ salt VM_0_12_centos cp.get_file salt://demo-springboot-service/helloworld-0.0.1-SNAPSHOT.jar /opt/javatest/helloworld-0.0.1-SNAPSHOT.jar mkdirs=True
+VM_0_12_centos:
+    /opt/javatest/helloworld-0.0.1-SNAPSHOT.jar
+[Pipeline] sh
++ salt VM_0_12_centos cp.get_file salt://demo-springboot-service/service.sh /opt/javatest/service.sh mkdirs=True
+VM_0_12_centos:
+    /opt/javatest/service.sh
+[Pipeline] sh
++ salt VM_0_12_centos cmd.run &#39;chown tomcat:tomcat /opt/javatest -R &#39;
+VM_0_12_centos:
+[Pipeline] sh
++ salt VM_0_12_centos cmd.run &#39;su - tomcat -c &#34;cd /opt/javatest &amp;&amp;  sh service.sh stop&#34; &#39;
+VM_0_12_centos:
+[Pipeline] sh
++ salt VM_0_12_centos cmd.run &#39;su - tomcat -c &#34;cd /opt/javatest &amp;&amp;  sh service.sh start helloworld-0.0.1-SNAPSHOT.jar 8080 /opt/javatest&#34; &#39;
+VM_0_12_centos:
+    /opt/javatest
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS</code></pre></div><div class="edit-meta">
+Last updated on 17 Oct 2017
+
+
+<br>
+Published on 17 Oct 2017
+<br><a href="https://github.com/zeyangli/Jenkinsdocs/edit/master/content/chapter6/4.md" class="edit-page"><i class="fas fa-pen-square"></i> Edit on GitHub</a></div><nav class="pagination"><a class="nav nav-prev" href="/chapter6/chapter6-6/3/" title="6-6-3 Jenkins发布流水线（Fir|蒲公英）"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - 6-6-3 Jenkins发布流水线（Fir|蒲公英）</a>
+<a class="nav nav-next" href="/chapter6/chapter6-6/" title="6-6 移动端Android项目发布流水线">Next - 6-6 移动端Android项目发布流水线 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</nav><footer><p class="powered">Powered by <a href="https://gohugo.io">Hugo</a>. Theme by <a href="https://themes.gohugo.io/hugo-theme-techdoc/">TechDoc</a>. Designed by <a href="https://github.com/thingsym/hugo-theme-techdoc">Thingsym</a>.</p>
+</footer>
+</main><div class="sidebar">
+<nav>
+<ul>
+<li class=""><a href="http://zeyangli.github.io">Home</a></li>
+
+<li class=""><a href="/chapter1/">第一章 认识Jenkins</a>
+<ul class="">
+<li class=""><a href="/chapter1/1/">1-1 Jenkins简介</a></li>
+<li class=""><a href="/chapter1/2/">1-2 Jenkins WebUI</a></li>
+<li class=""><a href="/chapter1/3/">1-3 Jenkins构建</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter2/">第二章 安装Jenkins</a>
+<ul class="">
+<li class=""><a href="/chapter2/1/">2-1 基于WAR包部署</a></li>
+<li class=""><a href="/chapter2/2/">2-2 基于MAC系统部署</a></li>
+<li class=""><a href="/chapter2/3/">2-3 基于Windows系统部署</a></li>
+<li class=""><a href="/chapter2/4/">2-4 基于Linux系统部署（推荐）</a></li>
+<li class=""><a href="/chapter2/5/">2-5 安装后配置</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter3/">第三章 管理Jenkins</a>
+<ul class="">
+<li class=""><a href="/chapter3/1/">3-1 用户管理</a></li>
+<li class=""><a href="/chapter3/2/">3-2 凭据管理</a></li>
+<li class=""><a href="/chapter3/3/">3-3 权限管理</a></li>
+<li class=""><a href="/chapter3/4/">3-4 项目管理</a></li>
+<li class=""><a href="/chapter3/5/">3-5 视图管理</a></li>
+<li class=""><a href="/chapter3/6/">3-6 插件管理</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter4/">第四章 Jenkins工具集成</a>
+<ul class="">
+
+<li class=""><a href="/chapter4/chapter4-1/">4-1 构建工具集成</a>
+<ul class="">
+<li class=""><a href="/chapter4/chapter4-1/1/">4-1-1 集成maven</a></li>
+<li class=""><a href="/chapter4/chapter4-1/2/">4-1-2 集成ant</a></li>
+<li class=""><a href="/chapter4/chapter4-1/3/">4-1-3 集成gradle</a></li>
+<li class=""><a href="/chapter4/chapter4-1/4/">4-1-4 集成npm</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter4/chapter4-2/">4-2 Ldap用户认证集成</a>
+<ul class="">
+<li class=""><a href="/chapter4/chapter4-2/1/">4-2-1 安装Ldap服务</a></li>
+<li class=""><a href="/chapter4/chapter4-2/2/">4-2-2 安装Ldap控制台</a></li>
+<li class=""><a href="/chapter4/chapter4-2/3/">4-2-3 配置Ldap服务</a></li>
+<li class=""><a href="/chapter4/chapter4-2/4/">4-2-4 创建OU组织用户数据</a></li>
+<li class=""><a href="/chapter4/chapter4-2/5/">4-2-5 Jenkins集成Ldap</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter4/chapter4-3/">4-3 Gitlab集成</a>
+<ul class="">
+<li class=""><a href="/chapter4/chapter4-3/1/">4-3-1 Jenkins集成Gitlab SSO单点登录</a></li>
+<li class=""><a href="/chapter4/chapter4-3/2/">4-3-2 WebHook集成</a></li>
+</ul>
+  
+</li>
+<li class=""><a href="/chapter4/2/">4-4 Jenkins集成SaltStack批量自动化发布</a></li>
+<li class=""><a href="/chapter4/3/">4-5 Jenkins制品库集成-Nexus</a></li>
+<li class=""><a href="/chapter4/4/">4-6 Jenkins集成禅道</a></li>
+<li class=""><a href="/chapter4/5/">4-7 Jenkins集成制品库-Artifactory</a></li>
+<li class=""><a href="/chapter4/6/">4-8 Jenkins集成SonarQube</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter5/">第五章 JenkinsPipeline   [待更新😄]</a>
+<ul class="">
+<li class=""><a href="/chapter5/1/">5-1 Jenkins Pipeline语法</a></li>
+<li class=""><a href="/chapter5/2/">5-2 Jenkins 声明式与脚本式语法</a></li>
+</ul>
+  
+</li>
+
+<li class="parent"><a href="/chapter6/">第六章 Jenkins流水线实践</a>
+<ul class="sub-menu">
+<li class=""><a href="/chapter6/1/">6-1 前端静态资源发布流水线</a></li>
+<li class=""><a href="/chapter6/2/">6-2 NodeJs项目发布流水线</a></li>
+<li class=""><a href="/chapter6/3/">6-3 Dotnet项目发布流水线</a></li>
+<li class="active"><a href="/chapter6/4/">6-4 JAVA-Springboot项目发布流水线</a></li>
+<li class=""><a href="/chapter6/5/">6-5 Golang项目发布流水线</a></li>
+
+<li class=""><a href="/chapter6/chapter6-6/">6-6 移动端Android项目发布流水线</a>
+<ul class="">
+<li class=""><a href="/chapter6/chapter6-6/1/">6-6-1 搭建Android打包环境（Centos）</a></li>
+<li class=""><a href="/chapter6/chapter6-6/2/">6-6-2 手动发布Android项目</a></li>
+<li class=""><a href="/chapter6/chapter6-6/3/">6-6-3 Jenkins发布流水线（Fir|蒲公英）</a></li>
+</ul>
+  
+</li>
+</ul>
+  
+</li>
+</ul>
+</nav>
+
+
+<div class="sidebar-footer"></div>
+</div>
+</div><a href="#" id="backtothetop-fixed" class="backtothetop"
+ data-backtothetop-duration="600"
+ data-backtothetop-easing="easeOutQuart"
+ data-backtothetop-fixed-fadeIn="1000"
+ data-backtothetop-fixed-fadeOut="1000"
+ data-backtothetop-fixed-bottom="10"
+ data-backtothetop-fixed-right="20">
+<span class="fa-layers fa-fw">
+<i class="fas fa-circle"></i>
+<i class="fas fa-arrow-circle-up"></i>
+</span></a>
+</div>
+</body>
+</html>

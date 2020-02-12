@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>第三章 管理Jenkins on Jenkins2 Pipeline Docs</title>
+    <link>http://zeyangli.github.io/chapter3/</link>
+    <description>Recent content in 第三章 管理Jenkins on Jenkins2 Pipeline Docs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 17 Oct 2017 15:26:15 +0000</lastBuildDate>
+    
+	<atom:link href="http://zeyangli.github.io/chapter3/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>3-1 用户管理</title>
+      <link>http://zeyangli.github.io/chapter3/1/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter3/1/</guid>
+      <description>配置用户接入入口: 系统管理-&amp;gt;全局安全配置。 默认使用的是Jenkins数据库存储。 可以选择集成LDAP服务或者是GItlab服务（需要</description>
+    </item>
+    
+    <item>
+      <title>3-2 凭据管理</title>
+      <link>http://zeyangli.github.io/chapter3/2/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter3/2/</guid>
+      <description>凭据-&amp;gt; 系统-&amp;gt; 全局凭据 2.2 新建凭据 2.3 删除凭据 2.4 更新凭据 2.5 移动凭据 凭据支持多个域，支持将凭据移动到其他域中。</description>
+    </item>
+    
+    <item>
+      <title>3-3 权限管理</title>
+      <link>http://zeyangli.github.io/chapter3/3/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter3/3/</guid>
+      <description>权限默认使用 Role-Based Strategy,其他方式如图所示。 管理权限 系统设置-&amp;gt;Manage and Assign Roles-&amp;gt;Manage Roles Global roles：添加用户和用户组，分配某个用户</description>
+    </item>
+    
+    <item>
+      <title>3-4 项目管理</title>
+      <link>http://zeyangli.github.io/chapter3/4/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter3/4/</guid>
+      <description>1.1 命名规范 业务名称-应用名称-应用类型_环境类型： cxy-wlck-ui_TEST, 只有命名规范才方便管理项目。 1.2 新建项目 设置构建历史 选择参数化构建 设置构建触发器 设置Jen</description>
+    </item>
+    
+    <item>
+      <title>3-5 视图管理</title>
+      <link>http://zeyangli.github.io/chapter3/5/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter3/5/</guid>
+      <description>默认会创建一个all视图里面存放所有的项目。 2.1 创建视图 凭据-&amp;gt; 系统-&amp;gt; 全局凭据 2.2 删除视图 2.3 更新视图</description>
+    </item>
+    
+    <item>
+      <title>3-6 插件管理</title>
+      <link>http://zeyangli.github.io/chapter3/6/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter3/6/</guid>
+      <description>系统设置-&amp;gt;插件管理。 3.1 安装插件 勾选要安装的插件，选择安装后不重启。（有些插件需要安装后重启） 安装 3.2 卸载插件 3.3 上传插件 3.4 切换插件更新站</description>
+    </item>
+    
+  </channel>
+</rss>

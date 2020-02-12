@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>4-3-1 Jenkins集成Gitlab SSO单点登录 - Jenkins2 Pipeline Docs</title>
+<meta name="description" content="☁️☀️🌫🌩">
+<meta name="generator" content="Hugo 0.58.1" />
+<link href="http://zeyangli.github.ioindex.xml" rel="alternate" type="application/rss+xml">
+<link rel="canonical" href="http://zeyangli.github.io/chapter4/chapter4-3/1/">
+<link rel="stylesheet" href="http://zeyangli.github.io/css/theme.min.css">
+<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<link rel="stylesheet" href="http://zeyangli.github.io/css/chroma.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="http://zeyangli.github.io/js/functions.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
+<script src="http://zeyangli.github.io/js/jquery.backtothetop/jquery.backtothetop.min.js"></script></head>
+<body>
+<div class="container"><header>
+<h1>Jenkins2 Pipeline Docs</h1>
+
+ <span class="version">Version 0.0.1</span>
+<a href="https://github.com/zeyangli/Jenkinsdocs" class="github"><i class="fab fa-github"></i></a>
+<p class="description">☁️☀️🌫🌩</p>
+
+</header>
+<div class="menu">
+<nav>
+<ul>
+<li><a href="/">Home</a></li></ul>
+</nav>
+</div>
+<div class="content-container">
+<main><h1>4-3-1 Jenkins集成Gitlab SSO单点登录</h1>
+
+<h2 id="1-1-gitlab配置">1.1 Gitlab配置</h2>
+
+<ul>
+<li>应用管理-&gt;创建应用-&gt;配置重定向url</li>
+</ul>
+
+<p><img src="../../static/image/07/01.png" alt="管理页面" /></p>
+
+<h2 id="1-2-jenkins配置">1.2 Jenkins配置</h2>
+
+<ul>
+<li>配置前备份config.xml文件，</li>
+<li>如果jenkins前面有代理需要改一下upstream名称，因为这个名称会自动填充为redirect_url地址。</li>
+</ul>
+
+<p><img src="../../static/image/07/02.png" alt="管理页面" /></p>
+
+<p>最后实现的效果是用户在gitlab登录之后，输入jenkins域名会直接进入jenkins。</p>
+<div class="edit-meta">
+Last updated on 17 Oct 2017
+
+
+<br>
+Published on 17 Oct 2017
+<br><a href="https://github.com/zeyangli/Jenkinsdocs/edit/master/content/chapter4/chapter4-3/1.md" class="edit-page"><i class="fas fa-pen-square"></i> Edit on GitHub</a></div><nav class="pagination"><a class="nav nav-prev" href="/chapter4/chapter4-3/" title="4-3 Gitlab集成"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - 4-3 Gitlab集成</a>
+<a class="nav nav-next" href="/chapter4/chapter4-3/2/" title="4-3-2 WebHook集成">Next - 4-3-2 WebHook集成 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</nav><footer><p class="powered">Powered by <a href="https://gohugo.io">Hugo</a>. Theme by <a href="https://themes.gohugo.io/hugo-theme-techdoc/">TechDoc</a>. Designed by <a href="https://github.com/thingsym/hugo-theme-techdoc">Thingsym</a>.</p>
+</footer>
+</main><div class="sidebar">
+<nav>
+<ul>
+<li class=""><a href="http://zeyangli.github.io">Home</a></li>
+
+<li class=""><a href="/chapter1/">第一章 认识Jenkins</a>
+<ul class="">
+<li class=""><a href="/chapter1/1/">1-1 Jenkins简介</a></li>
+<li class=""><a href="/chapter1/2/">1-2 Jenkins WebUI</a></li>
+<li class=""><a href="/chapter1/3/">1-3 Jenkins构建</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter2/">第二章 安装Jenkins</a>
+<ul class="">
+<li class=""><a href="/chapter2/1/">2-1 基于WAR包部署</a></li>
+<li class=""><a href="/chapter2/2/">2-2 基于MAC系统部署</a></li>
+<li class=""><a href="/chapter2/3/">2-3 基于Windows系统部署</a></li>
+<li class=""><a href="/chapter2/4/">2-4 基于Linux系统部署（推荐）</a></li>
+<li class=""><a href="/chapter2/5/">2-5 安装后配置</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter3/">第三章 管理Jenkins</a>
+<ul class="">
+<li class=""><a href="/chapter3/1/">3-1 用户管理</a></li>
+<li class=""><a href="/chapter3/2/">3-2 凭据管理</a></li>
+<li class=""><a href="/chapter3/3/">3-3 权限管理</a></li>
+<li class=""><a href="/chapter3/4/">3-4 项目管理</a></li>
+<li class=""><a href="/chapter3/5/">3-5 视图管理</a></li>
+<li class=""><a href="/chapter3/6/">3-6 插件管理</a></li>
+</ul>
+  
+</li>
+
+<li class="parent"><a href="/chapter4/">第四章 Jenkins工具集成</a>
+<ul class="sub-menu">
+
+<li class=""><a href="/chapter4/chapter4-1/">4-1 构建工具集成</a>
+<ul class="">
+<li class=""><a href="/chapter4/chapter4-1/1/">4-1-1 集成maven</a></li>
+<li class=""><a href="/chapter4/chapter4-1/2/">4-1-2 集成ant</a></li>
+<li class=""><a href="/chapter4/chapter4-1/3/">4-1-3 集成gradle</a></li>
+<li class=""><a href="/chapter4/chapter4-1/4/">4-1-4 集成npm</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter4/chapter4-2/">4-2 Ldap用户认证集成</a>
+<ul class="">
+<li class=""><a href="/chapter4/chapter4-2/1/">4-2-1 安装Ldap服务</a></li>
+<li class=""><a href="/chapter4/chapter4-2/2/">4-2-2 安装Ldap控制台</a></li>
+<li class=""><a href="/chapter4/chapter4-2/3/">4-2-3 配置Ldap服务</a></li>
+<li class=""><a href="/chapter4/chapter4-2/4/">4-2-4 创建OU组织用户数据</a></li>
+<li class=""><a href="/chapter4/chapter4-2/5/">4-2-5 Jenkins集成Ldap</a></li>
+</ul>
+  
+</li>
+
+<li class="parent"><a href="/chapter4/chapter4-3/">4-3 Gitlab集成</a>
+<ul class="sub-menu">
+<li class="active"><a href="/chapter4/chapter4-3/1/">4-3-1 Jenkins集成Gitlab SSO单点登录</a></li>
+<li class=""><a href="/chapter4/chapter4-3/2/">4-3-2 WebHook集成</a></li>
+</ul>
+  
+</li>
+<li class=""><a href="/chapter4/2/">4-4 Jenkins集成SaltStack批量自动化发布</a></li>
+<li class=""><a href="/chapter4/3/">4-5 Jenkins制品库集成-Nexus</a></li>
+<li class=""><a href="/chapter4/4/">4-6 Jenkins集成禅道</a></li>
+<li class=""><a href="/chapter4/5/">4-7 Jenkins集成制品库-Artifactory</a></li>
+<li class=""><a href="/chapter4/6/">4-8 Jenkins集成SonarQube</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter5/">第五章 JenkinsPipeline   [待更新😄]</a>
+<ul class="">
+<li class=""><a href="/chapter5/1/">5-1 Jenkins Pipeline语法</a></li>
+<li class=""><a href="/chapter5/2/">5-2 Jenkins 声明式与脚本式语法</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter6/">第六章 Jenkins流水线实践</a>
+<ul class="">
+<li class=""><a href="/chapter6/1/">6-1 前端静态资源发布流水线</a></li>
+<li class=""><a href="/chapter6/2/">6-2 NodeJs项目发布流水线</a></li>
+<li class=""><a href="/chapter6/3/">6-3 Dotnet项目发布流水线</a></li>
+<li class=""><a href="/chapter6/4/">6-4 JAVA-Springboot项目发布流水线</a></li>
+<li class=""><a href="/chapter6/5/">6-5 Golang项目发布流水线</a></li>
+
+<li class=""><a href="/chapter6/chapter6-6/">6-6 移动端Android项目发布流水线</a>
+<ul class="">
+<li class=""><a href="/chapter6/chapter6-6/1/">6-6-1 搭建Android打包环境（Centos）</a></li>
+<li class=""><a href="/chapter6/chapter6-6/2/">6-6-2 手动发布Android项目</a></li>
+<li class=""><a href="/chapter6/chapter6-6/3/">6-6-3 Jenkins发布流水线（Fir|蒲公英）</a></li>
+</ul>
+  
+</li>
+</ul>
+  
+</li>
+</ul>
+</nav>
+
+
+<div class="sidebar-footer"></div>
+</div>
+</div><a href="#" id="backtothetop-fixed" class="backtothetop"
+ data-backtothetop-duration="600"
+ data-backtothetop-easing="easeOutQuart"
+ data-backtothetop-fixed-fadeIn="1000"
+ data-backtothetop-fixed-fadeOut="1000"
+ data-backtothetop-fixed-bottom="10"
+ data-backtothetop-fixed-right="20">
+<span class="fa-layers fa-fw">
+<i class="fas fa-circle"></i>
+<i class="fas fa-arrow-circle-up"></i>
+</span></a>
+</div>
+</body>
+</html>

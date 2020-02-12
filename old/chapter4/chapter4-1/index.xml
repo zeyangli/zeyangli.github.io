@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>4-1 构建工具集成 on Jenkins2 Pipeline Docs</title>
+    <link>http://zeyangli.github.io/chapter4/chapter4-1/</link>
+    <description>Recent content in 4-1 构建工具集成 on Jenkins2 Pipeline Docs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 17 Oct 2017 15:26:15 +0000</lastBuildDate>
+    
+	<atom:link href="http://zeyangli.github.io/chapter4/chapter4-1/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>4-1-1 集成maven</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-1/1/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter4/chapter4-1/1/</guid>
+      <description>先决条件 JDK：在maven3.3 以上的版本需要JDK版本1.7+。内存：没有最低限制。 磁盘：1G+可用磁盘空间。 操作系统：没有限制。 下载m</description>
+    </item>
+    
+    <item>
+      <title>4-1-2 集成ant</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-1/2/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter4/chapter4-1/2/</guid>
+      <description>先决条件 下载：Download 安装ant tar zxf apache-ant-1.10.5-bin.tar.gz -C /usr/local/ #添加全局变量（/etc/profile） export ANT_HOME=/usr/local/apache-ant-1.10.5 export PATH=$PATH:$MAVEN_HOME/bin:$ANT_HOME/bin source /etc/profile 测试 Jenkins配置ant 系统设置</description>
+    </item>
+    
+    <item>
+      <title>4-1-3 集成gradle</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-1/3/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter4/chapter4-1/3/</guid>
+      <description>先决条件 下载: Download 安装Gradle unzip gradle-5.3-bin.zip -d /usr/local/ #添加全局变量（/etc/profile） export GRADLE_HOME=/usr/local/gradle-5.3 export PATH=$PATH: $GRADLE_HOME/bin source /etc/profile 测试 Jenkins配置gradle 系统设置-</description>
+    </item>
+    
+    <item>
+      <title>4-1-4 集成npm</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-1/4/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter4/chapter4-1/4/</guid>
+      <description>先决条件 下载Download 安装Node tar xf node-v10.15.3-linux-x64.tar.xz -C /usr/local/ #添加全局变量（/etc/profile） export NODE_HOME=/usr/local/node-v10.15.3-linux-x64 export PATH=$PATH: $NODE_HOME/bin source /etc/profile 测试 Jenkins配置Npm 在Je</description>
+    </item>
+    
+  </channel>
+</rss>

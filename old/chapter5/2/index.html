@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>5-2 Jenkins 声明式与脚本式语法 - Jenkins2 Pipeline Docs</title>
+<meta name="description" content="☁️☀️🌫🌩">
+<meta name="generator" content="Hugo 0.58.1" />
+<link href="http://zeyangli.github.ioindex.xml" rel="alternate" type="application/rss+xml">
+<link rel="canonical" href="http://zeyangli.github.io/chapter5/2/">
+<link rel="stylesheet" href="http://zeyangli.github.io/css/theme.min.css">
+<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<link rel="stylesheet" href="http://zeyangli.github.io/css/chroma.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="http://zeyangli.github.io/js/functions.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
+<script src="http://zeyangli.github.io/js/jquery.backtothetop/jquery.backtothetop.min.js"></script></head>
+<body>
+<div class="container"><header>
+<h1>Jenkins2 Pipeline Docs</h1>
+
+ <span class="version">Version 0.0.1</span>
+<a href="https://github.com/zeyangli/Jenkinsdocs" class="github"><i class="fab fa-github"></i></a>
+<p class="description">☁️☀️🌫🌩</p>
+
+</header>
+<div class="menu">
+<nav>
+<ul>
+<li><a href="/">Home</a></li></ul>
+</nav>
+</div>
+<div class="content-container">
+<main><h1>5-2 Jenkins 声明式与脚本式语法</h1>
+
+<h2 id="1-声明式pipeline">1. 声明式Pipeline</h2>
+
+<p>声明式Pipleine是最近添加到Jenkins流水线的，它在流水线子系统之上提供了一种更简单，更有主见的语法。
+所有的声明式Pipeline都必须包含一个   <code>pipeline</code>块中，比如：</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span> <span class="o">{</span>
+    <span class="c1">//run
+</span><span class="c1"></span><span class="o">}</span></code></pre></div>
+<p>在声明式Pipeline中的基本语句和表达式遵循Groovy的语法。但是有以下例外：</p>
+
+<ul>
+<li>流水线顶层必须是一个块，特别是pipelin{}。</li>
+<li>不需要分号作为分割符，是按照行分割的。</li>
+<li>语句块只能由阶段、指令、步骤、赋值语句组成。例如: input被视为input()。</li>
+</ul>
+
+<h3 id="1-1-agent-代理">1.1 agent(代理)</h3>
+
+<p>agent 指定了流水线的执行节点。</p>
+
+<p>参数：</p>
+
+<ul>
+<li>any 在任何可用的节点上执行pipeline。</li>
+<li>none 没有指定agent的时候默认。</li>
+<li>label 在指定标签上的节点上运行Pipeline。</li>
+
+<li><p>node 允许额外的选项。</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="err">这两种是一样的</span>
+<span class="n">agent</span> <span class="o">{</span> <span class="n">node</span> <span class="o">{</span> <span class="n">label</span> <span class="s1">&#39;labelname&#39;</span> <span class="o">}}</span>
+<span class="n">aget</span> <span class="o">{</span> <span class="n">label</span> <span class="s1">&#39; labelname &#39;</span><span class="o">}</span></code></pre></div></li>
+</ul>
+
+<h3 id="1-2-post">1.2 post</h3>
+
+<p>定义一个或多个steps ，这些阶段根据流水线或阶段的完成情况而 运行(取决于流水线中<code>post</code>部分的位置). post 支持以下 post-condition 块中的其中之一: always, changed, failure, success, unstable, 和 aborted。这些条件块允许在 post 部分的步骤的执行取决于流水线或阶段的完成状态。</p>
+
+<ul>
+<li>always 无论流水线或者阶段的完成状态。</li>
+<li>changed 只有当流水线或者阶段完成状态与之前不同时。</li>
+<li>failure 只有当流水线或者阶段状态为&rdquo;failure&rdquo;运行。</li>
+<li>success 只有当流水线或者阶段状态为&rdquo;success&rdquo;运行。</li>
+<li>unstable 只有当流水线或者阶段状态为&rdquo;unstable&rdquo;运行。例如：测试失败。</li>
+
+<li><p>aborted  只有当流水线或者阶段状态为&rdquo;aborted &ldquo;运行。例如：手动取消。</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span> <span class="o">{</span>
+<span class="n">agent</span> <span class="n">any</span>
+<span class="n">stages</span> <span class="o">{</span>
+    <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example&#39;</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">steps</span> <span class="o">{</span>
+            <span class="n">echo</span> <span class="s1">&#39;Hello World&#39;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="n">post</span> <span class="o">{</span> 
+    <span class="n">always</span> <span class="o">{</span> 
+        <span class="n">echo</span> <span class="s1">&#39;I will always say Hello again!&#39;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="o">}</span></code></pre></div></li>
+</ul>
+
+<h3 id="1-3-stages-阶段">1.3 stages(阶段)</h3>
+
+<p>包含一系列一个或多个 stage 指令, 建议 stages 至少包含一个 stage 指令用于连续交付过程的每个离散部分,比如构建, 测试, 和部署。</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span> <span class="o">{</span>
+    <span class="n">agent</span> <span class="n">any</span>
+    <span class="n">stages</span> <span class="o">{</span> 
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">echo</span> <span class="s1">&#39;Hello World&#39;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+<h3 id="1-4-steps-步骤">1.4 steps(步骤)</h3>
+
+<p>step是每个阶段中要执行的每个步骤。</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span> <span class="o">{</span>
+    <span class="n">agent</span> <span class="n">any</span>
+    <span class="n">stages</span> <span class="o">{</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">steps</span> <span class="o">{</span> 
+                <span class="n">echo</span> <span class="s1">&#39;Hello World&#39;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+<h3 id="1-5-指令">1.5 指令</h3>
+
+<h4 id="1-5-1-environment">1.5.1 environment</h4>
+
+<p>environment 指令指定一个键值对序列，该序列将被定义为所有步骤的环境变量，或者是特定于阶段的步骤，这取决于 environment 指令在流水线内的位置。</p>
+
+<p>该指令支持一个特殊的方法 credentials() ，该方法可用于在Jenkins环境中通过标识符访问预定义的凭证。对于类型为 &ldquo;Secret Text&rdquo;的凭证, credentials() 将确保指定的环境变量包含秘密文本内容。对于类型为 &ldquo;SStandard username and password&rdquo;的凭证, 指定的环境变量指定为 username:password ，并且两个额外的环境变量将被自动定义 :分别为 MYVARNAME_USR 和 MYVARNAME_PSW 。</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span> <span class="o">{</span>
+    <span class="n">agent</span> <span class="n">any</span>
+    <span class="n">environment</span> <span class="o">{</span> 
+        <span class="n">CC</span> <span class="o">=</span> <span class="s1">&#39;clang&#39;</span>
+    <span class="o">}</span>
+    <span class="n">stages</span> <span class="o">{</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">environment</span> <span class="o">{</span> 
+                <span class="n">AN_ACCESS_KEY</span> <span class="o">=</span> <span class="n">credentials</span><span class="o">(</span><span class="s1">&#39;my-prefined-secret-text&#39;</span><span class="o">)</span> 
+            <span class="o">}</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">sh</span> <span class="s1">&#39;printenv&#39;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+<h4 id="1-5-2-options">1.5.2 options</h4>
+
+<p>options 指令允许从流水线内部配置特定于流水线的选项。 流水线提供了许多这样的选项, 比如<code>buildDiscarder</code>,但也可以由插件提供, 比如 timestamps。</p>
+
+<ul>
+<li>buildDiscarder: 为最近的流水线运行的特定数量保存组件和控制台输出。</li>
+<li>disableConcurrentBuilds: 不允许同时执行流水线。 可被用来防止同时访问共享资源等。</li>
+<li>overrideIndexTriggers: 允许覆盖分支索引触发器的默认处理。</li>
+<li>skipDefaultCheckout: 在<code>agent</code> 指令中，跳过从源代码控制中检出代码的默认情况。</li>
+<li>skipStagesAfterUnstable: 一旦构建状态变得UNSTABLE，跳过该阶段。</li>
+<li>checkoutToSubdirectory: 在工作空间的子目录中自动地执行源代码控制检出。</li>
+<li>timeout: 设置流水线运行的超时时间, 在此之后，Jenkins将中止流水线。</li>
+<li>retry: 在失败时, 重新尝试整个流水线的指定次数。</li>
+
+<li><p>timestamps 预测所有由流水线生成的控制台输出，与该流水线发出的时间一致。</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="c1">//指定一个小时的全局执行超时, 在此之后，Jenkins将中止流水线运行。
+</span><span class="c1"></span><span class="n">pipeline</span> <span class="o">{</span>
+<span class="n">agent</span> <span class="n">any</span>
+<span class="n">options</span> <span class="o">{</span>
+    <span class="n">timeout</span><span class="o">(</span><span class="nl">time:</span> <span class="mi">1</span><span class="o">,</span> <span class="nl">unit:</span> <span class="s1">&#39;HOURS&#39;</span><span class="o">)</span> 
+<span class="o">}</span>
+<span class="n">stages</span> <span class="o">{</span>
+    <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example&#39;</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">steps</span> <span class="o">{</span>
+            <span class="n">echo</span> <span class="s1">&#39;Hello World&#39;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="o">}</span></code></pre></div></li>
+</ul>
+
+<h4 id="1-5-3-参数">1.5.3 参数</h4>
+
+<p>为流水线运行时设置项目相关的参数</p>
+
+<ul>
+<li><p>string 字符串类型的参数, 例如:</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">parameters</span> <span class="o">{</span> <span class="n">string</span><span class="o">(</span><span class="nl">name:</span> <span class="s1">&#39;DEPLOY_ENV&#39;</span><span class="o">,</span> <span class="nl">defaultValue:</span> <span class="s1">&#39;staging&#39;</span><span class="o">,</span> <span class="nl">description:</span> <span class="s1">&#39;&#39;</span><span class="o">)</span> <span class="o">}</span></code></pre></div></li>
+
+<li><p>booleanParam 布尔参数, 例如:</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">parameters</span> <span class="o">{</span> <span class="n">booleanParam</span><span class="o">(</span><span class="nl">name:</span> <span class="s1">&#39;DEBUG_BUILD&#39;</span><span class="o">,</span> <span class="nl">defaultValue:</span> <span class="kc">true</span><span class="o">,</span> <span class="nl">description:</span> <span class="s1">&#39;&#39;</span><span class="o">)</span> <span class="o">}</span></code></pre></div></li>
+
+<li><p>示例</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span> <span class="o">{</span>
+<span class="n">agent</span> <span class="n">any</span>
+<span class="n">parameters</span> <span class="o">{</span>
+    <span class="n">string</span><span class="o">(</span><span class="nl">name:</span> <span class="s1">&#39;PERSON&#39;</span><span class="o">,</span> <span class="nl">defaultValue:</span> <span class="s1">&#39;Mr Jenkins&#39;</span><span class="o">,</span> <span class="nl">description:</span> <span class="s1">&#39;Who should I say hello to?&#39;</span><span class="o">)</span>
+<span class="o">}</span>
+<span class="n">stages</span> <span class="o">{</span>
+    <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example&#39;</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">steps</span> <span class="o">{</span>
+            <span class="n">echo</span> <span class="s2">&#34;Hello ${params.PERSON}&#34;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="o">}</span></code></pre></div></li>
+</ul>
+
+<h4 id="1-5-4-触发器">1.5.4 触发器</h4>
+
+<p>构建触发器</p>
+
+<ul>
+<li><p>cron 计划任务定期执行构建。</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">triggers</span> <span class="o">{</span> <span class="n">cron</span><span class="o">(</span><span class="s1">&#39;H */4 * * 1-5&#39;</span><span class="o">)</span> <span class="o">}</span></code></pre></div></li>
+
+<li><p>pollSCM 与cron定义类似，但是由jenkins定期检测源码变化。</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">triggers</span> <span class="o">{</span> <span class="n">pollSCM</span><span class="o">(</span><span class="s1">&#39;H */4 * * 1-5&#39;</span><span class="o">)</span> <span class="o">}</span></code></pre></div></li>
+
+<li><p>upstream 接受逗号分隔的工作字符串和阈值。 当字符串中的任何作业以最小阈值结束时，流水线被重新触发。</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">triggers</span> <span class="o">{</span> <span class="n">upstream</span><span class="o">(</span><span class="nl">upstreamProjects:</span> <span class="s1">&#39;job1,job2&#39;</span><span class="o">,</span> <span class="nl">threshold:</span> <span class="n">hudson</span><span class="o">.</span><span class="na">model</span><span class="o">.</span><span class="na">Result</span><span class="o">.</span><span class="na">SUCCESS</span><span class="o">)</span> <span class="o">}</span></code></pre></div></li>
+
+<li><p>示例</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span> <span class="o">{</span>
+<span class="n">agent</span> <span class="n">any</span>
+<span class="n">triggers</span> <span class="o">{</span>
+    <span class="n">cron</span><span class="o">(</span><span class="s1">&#39;H */4 * * 1-5&#39;</span><span class="o">)</span>
+<span class="o">}</span>
+<span class="n">stages</span> <span class="o">{</span>
+    <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example&#39;</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">steps</span> <span class="o">{</span>
+            <span class="n">echo</span> <span class="s1">&#39;Hello World&#39;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="o">}</span></code></pre></div></li>
+</ul>
+
+<h4 id="1-5-5-tool">1.5.5 tool</h4>
+
+<p>获取通过自动安装或手动放置工具的环境变量。支持maven/jdk/gradle。工具的名称必须在系统设置-&gt;全局工具配置中定义。</p>
+
+<p>示例:</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span> <span class="o">{</span>
+    <span class="n">agent</span> <span class="n">any</span>
+    <span class="n">tools</span> <span class="o">{</span>
+        <span class="n">maven</span> <span class="s1">&#39;apache-maven-3.0.1&#39;</span> 
+    <span class="o">}</span>
+    <span class="n">stages</span> <span class="o">{</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">sh</span> <span class="s1">&#39;mvn --version&#39;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+<h4 id="1-5-6-input">1.5.6 input</h4>
+
+<p>input用户在执行各个阶段的时候，由人工确认是否继续进行。</p>
+
+<ul>
+<li>message  呈现给用户的提示信息。</li>
+<li>id 可选，默认为stage名称。</li>
+<li>ok 默认表单上的ok文本。</li>
+<li>submitter 可选的,以逗号分隔的用户列表或允许提交的外部组名。默认允许任何用户。</li>
+<li>submitterParameter 环境变量的可选名称。如果存在，用<code>submitter</code> 名称设置。</li>
+<li>parameters 提示提交者提供的一个可选的参数列表。</li>
+</ul>
+
+<p>示例：</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span> <span class="o">{</span>
+    <span class="n">agent</span> <span class="n">any</span>
+    <span class="n">stages</span> <span class="o">{</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">input</span> <span class="o">{</span>
+                <span class="n">message</span> <span class="s2">&#34;Should we continue?&#34;</span>
+                <span class="n">ok</span> <span class="s2">&#34;Yes, we should.&#34;</span>
+                <span class="n">submitter</span> <span class="s2">&#34;alice,bob&#34;</span>
+                <span class="n">parameters</span> <span class="o">{</span>
+                    <span class="n">string</span><span class="o">(</span><span class="nl">name:</span> <span class="s1">&#39;PERSON&#39;</span><span class="o">,</span> <span class="nl">defaultValue:</span> <span class="s1">&#39;Mr Jenkins&#39;</span><span class="o">,</span> <span class="nl">description:</span> <span class="s1">&#39;Who should I say hello to?&#39;</span><span class="o">)</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">echo</span> <span class="s2">&#34;Hello, ${PERSON}, nice to meet you.&#34;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+<h4 id="1-5-7-when">1.5.7 when</h4>
+
+<p>when 指令允许流水线根据给定的条件决定是否应该执行阶段。 when 指令必须包含至少一个条件。 如果<code>when</code> 指令包含多个条件, 所有的子条件必须返回True，阶段才能执行。 这与子条件在 allOf 条件下嵌套的情况相同。</p>
+
+<p>内置条件</p>
+
+<ul>
+<li><p>branch: 当正在构建的分支与模式给定的分支匹配时，执行这个阶段,这只适用于多分支流水线例如:</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">when</span> <span class="o">{</span> <span class="n">branch</span> <span class="s1">&#39;master&#39;</span> <span class="o">}</span></code></pre></div></li>
+
+<li><p>environment: 当指定的环境变量是给定的值时，执行这个步骤,例如:</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">when</span> <span class="o">{</span> <span class="n">environment</span> <span class="nl">name:</span> <span class="s1">&#39;DEPLOY_TO&#39;</span><span class="o">,</span> <span class="nl">value:</span> <span class="s1">&#39;production&#39;</span> <span class="o">}</span></code></pre></div></li>
+
+<li><p>expression 当指定的Groovy表达式评估为true时，执行这个阶段, 例如:</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">when</span> <span class="o">{</span> <span class="n">expression</span> <span class="o">{</span> <span class="k">return</span> <span class="n">params</span><span class="o">.</span><span class="na">DEBUG_BUILD</span> <span class="o">}</span> <span class="o">}</span></code></pre></div></li>
+
+<li><p>not 当嵌套条件是错误时，执行这个阶段,必须包含一个条件，例如:</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">when</span> <span class="o">{</span> <span class="n">not</span> <span class="o">{</span> <span class="n">branch</span> <span class="s1">&#39;master&#39;</span> <span class="o">}</span> <span class="o">}</span></code></pre></div></li>
+
+<li><p>allOf 当所有的嵌套条件都正确时，执行这个阶段,必须包含至少一个条件，例如:</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">when</span> <span class="o">{</span> <span class="n">allOf</span> <span class="o">{</span> <span class="n">branch</span> <span class="s1">&#39;master&#39;</span><span class="o">;</span> <span class="n">environment</span> <span class="nl">name:</span> <span class="s1">&#39;DEPLOY_TO&#39;</span><span class="o">,</span> <span class="nl">value:</span> <span class="s1">&#39;production&#39;</span> <span class="o">}</span> <span class="o">}</span></code></pre></div></li>
+
+<li><p>anyOf 当至少有一个嵌套条件为真时，执行这个阶段,必须包含至少一个条件，例如:</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">when</span> <span class="o">{</span> <span class="n">anyOf</span> <span class="o">{</span> <span class="n">branch</span> <span class="s1">&#39;master&#39;</span><span class="o">;</span> <span class="n">branch</span> <span class="s1">&#39;staging&#39;</span> <span class="o">}</span> <span class="o">}</span></code></pre></div></li>
+</ul>
+
+<p>示例：</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span> <span class="o">{</span>
+    <span class="n">agent</span> <span class="n">any</span>
+    <span class="n">stages</span> <span class="o">{</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example Build&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">echo</span> <span class="s1">&#39;Hello World&#39;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example Deploy&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">when</span> <span class="o">{</span>
+                <span class="n">branch</span> <span class="s1">&#39;production&#39;</span>
+            <span class="o">}</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">echo</span> <span class="s1">&#39;Deploying&#39;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span> <span class="o">{</span>
+    <span class="n">agent</span> <span class="n">any</span>
+    <span class="n">stages</span> <span class="o">{</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example Build&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">echo</span> <span class="s1">&#39;Hello World&#39;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example Deploy&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">when</span> <span class="o">{</span>
+                <span class="n">branch</span> <span class="s1">&#39;production&#39;</span>
+                <span class="n">environment</span> <span class="nl">name:</span> <span class="s1">&#39;DEPLOY_TO&#39;</span><span class="o">,</span> <span class="nl">value:</span> <span class="s1">&#39;production&#39;</span>
+            <span class="o">}</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">echo</span> <span class="s1">&#39;Deploying&#39;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span> <span class="o">{</span>
+    <span class="n">agent</span> <span class="n">any</span>
+    <span class="n">stages</span> <span class="o">{</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example Build&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">echo</span> <span class="s1">&#39;Hello World&#39;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example Deploy&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">when</span> <span class="o">{</span>
+                <span class="n">allOf</span> <span class="o">{</span>
+                    <span class="n">branch</span> <span class="s1">&#39;production&#39;</span>
+                    <span class="n">environment</span> <span class="nl">name:</span> <span class="s1">&#39;DEPLOY_TO&#39;</span><span class="o">,</span> <span class="nl">value:</span> <span class="s1">&#39;production&#39;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">echo</span> <span class="s1">&#39;Deploying&#39;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span> <span class="o">{</span>
+    <span class="n">agent</span> <span class="n">any</span>
+    <span class="n">stages</span> <span class="o">{</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example Build&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">echo</span> <span class="s1">&#39;Hello World&#39;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example Deploy&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">when</span> <span class="o">{</span>
+                <span class="n">branch</span> <span class="s1">&#39;production&#39;</span>
+                <span class="n">anyOf</span> <span class="o">{</span>
+                    <span class="n">environment</span> <span class="nl">name:</span> <span class="s1">&#39;DEPLOY_TO&#39;</span><span class="o">,</span> <span class="nl">value:</span> <span class="s1">&#39;production&#39;</span>
+                    <span class="n">environment</span> <span class="nl">name:</span> <span class="s1">&#39;DEPLOY_TO&#39;</span><span class="o">,</span> <span class="nl">value:</span> <span class="s1">&#39;staging&#39;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">echo</span> <span class="s1">&#39;Deploying&#39;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span> <span class="o">{</span>
+    <span class="n">agent</span> <span class="n">any</span>
+    <span class="n">stages</span> <span class="o">{</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example Build&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">echo</span> <span class="s1">&#39;Hello World&#39;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example Deploy&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">when</span> <span class="o">{</span>
+                <span class="n">expression</span> <span class="o">{</span> <span class="n">BRANCH_NAME</span> <span class="o">==~</span> <span class="s">/(production|staging)/</span> <span class="o">}</span>
+                <span class="n">anyOf</span> <span class="o">{</span>
+                    <span class="n">environment</span> <span class="nl">name:</span> <span class="s1">&#39;DEPLOY_TO&#39;</span><span class="o">,</span> <span class="nl">value:</span> <span class="s1">&#39;production&#39;</span>
+                    <span class="n">environment</span> <span class="nl">name:</span> <span class="s1">&#39;DEPLOY_TO&#39;</span><span class="o">,</span> <span class="nl">value:</span> <span class="s1">&#39;staging&#39;</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">echo</span> <span class="s1">&#39;Deploying&#39;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span> <span class="o">{</span>
+    <span class="n">agent</span> <span class="n">none</span>
+    <span class="n">stages</span> <span class="o">{</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example Build&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">echo</span> <span class="s1">&#39;Hello World&#39;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example Deploy&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">agent</span> <span class="o">{</span>
+                <span class="n">label</span> <span class="s2">&#34;some-label&#34;</span>
+            <span class="o">}</span>
+            <span class="n">when</span> <span class="o">{</span>
+                <span class="n">beforeAgent</span> <span class="kc">true</span>
+                <span class="n">branch</span> <span class="s1">&#39;production&#39;</span>
+            <span class="o">}</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">echo</span> <span class="s1">&#39;Deploying&#39;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+<h4 id="1-5-8-并行">1.5.8  并行</h4>
+
+<p>声明式流水线的阶段可以在他们内部声明多隔嵌套阶段, 它们将并行执行。 注意，一个阶段必须只有一个 steps 或 <code>parallel</code>的阶段。 嵌套阶段本身不能包含 进一步的 <code>parallel</code> 阶段, 但是其他的阶段的行为与任何其他 stage<code>parallel</code>的阶段不能包含 <code>agent</code> 或 <code>tools</code>阶段, 因为他们没有相关 <code>steps</code>。</p>
+
+<p>另外, 通过添加 <code>failFast true</code> 到包含<code>parallel</code>的 <code>stage</code>中， 当其中一个进程失败时，你可以强制所有的 <code>parallel</code> 阶段都被终止。</p>
+
+<p>示例:</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span> <span class="o">{</span>
+    <span class="n">agent</span> <span class="n">any</span>
+    <span class="n">stages</span> <span class="o">{</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Non-Parallel Stage&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">echo</span> <span class="s1">&#39;This stage will be executed first.&#39;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Parallel Stage&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">when</span> <span class="o">{</span>
+                <span class="n">branch</span> <span class="s1">&#39;master&#39;</span>
+            <span class="o">}</span>
+            <span class="n">failFast</span> <span class="kc">true</span>
+            <span class="n">parallel</span> <span class="o">{</span>
+                <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Branch A&#39;</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">agent</span> <span class="o">{</span>
+                        <span class="n">label</span> <span class="s2">&#34;for-branch-a&#34;</span>
+                    <span class="o">}</span>
+                    <span class="n">steps</span> <span class="o">{</span>
+                        <span class="n">echo</span> <span class="s2">&#34;On Branch A&#34;</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+                <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Branch B&#39;</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">agent</span> <span class="o">{</span>
+                        <span class="n">label</span> <span class="s2">&#34;for-branch-b&#34;</span>
+                    <span class="o">}</span>
+                    <span class="n">steps</span> <span class="o">{</span>
+                        <span class="n">echo</span> <span class="s2">&#34;On Branch B&#34;</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+<h3 id="1-6-step步骤">1.6 step步骤</h3>
+
+<h4 id="1-6-1-script">1.6.1 script</h4>
+
+<p>script 步骤需要 [scripted-pipeline]块并在声明式流水线中执行。对于大多数用例来说,应该声明式流水线中的“脚本”步骤是不必要的，但是它可以提供一个有用的&rdquo;逃生出口&rdquo;。非平凡的规模和/或复杂性的<code>script</code>块应该被转移到 共享库 。</p>
+
+<p>示例：</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span> <span class="o">{</span>
+    <span class="n">agent</span> <span class="n">any</span>
+    <span class="n">stages</span> <span class="o">{</span>
+        <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">steps</span> <span class="o">{</span>
+                <span class="n">echo</span> <span class="s1">&#39;Hello World&#39;</span>
+
+                <span class="n">script</span> <span class="o">{</span>
+                    <span class="kt">def</span> <span class="n">browsers</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;chrome&#39;</span><span class="o">,</span> <span class="s1">&#39;firefox&#39;</span><span class="o">]</span>
+                    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">browsers</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="o">++</span><span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">echo</span> <span class="s2">&#34;Testing the ${browsers[i]} browser&#34;</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+<h2 id="2-脚本化pipeline">2. 脚本化Pipeline</h2>
+
+<p>脚本化流水线, 与声明式一样的是, 是建立在底层流水线的子系统上的。与声明式不同的是, 脚本化流水线实际上是由 Groovy构建的通用 DSL 。 Groovy 语言提供的大部分功能都可以用于脚本化流水线的用户。这意味着它是一个非常有表现力和灵活的工具，可以通过它编写持续交付流水线。</p>
+
+<h3 id="2-1-流程控制">2.1 流程控制</h3>
+
+<p>脚本化流水线从<code>Jenkinsfile</code>的顶部开始向下串行执行, 就像 Groovy 或其他语言中的大多数传统脚本一样。 因此，提供流控制取决于 Groovy 表达式, 比如 if/else 条件, 例如:</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">node</span> <span class="o">{</span>
+    <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example&#39;</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">env</span><span class="o">.</span><span class="na">BRANCH_NAME</span> <span class="o">==</span> <span class="s1">&#39;master&#39;</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">echo</span> <span class="s1">&#39;I only execute on the master branch&#39;</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">echo</span> <span class="s1">&#39;I execute elsewhere&#39;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+<p>另一种方法是使用Groovy的异常处理支持来管理脚本化流水线流控制。当 步骤 失败 ，无论什么原因，它们都会抛出一个异常。处理错误的行为必须使用Groovy中的 try/catch/finally 块 , 例如:</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">node</span> <span class="o">{</span>
+    <span class="n">stage</span><span class="o">(</span><span class="s1">&#39;Example&#39;</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">sh</span> <span class="s1">&#39;exit 1&#39;</span>
+        <span class="o">}</span>
+        <span class="k">catch</span> <span class="o">(</span><span class="n">exc</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">echo</span> <span class="s1">&#39;Something failed, I should sound the klaxons!&#39;</span>
+            <span class="k">throw</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></div><div class="edit-meta">
+Last updated on 17 Oct 2017
+
+
+<br>
+Published on 17 Oct 2017
+<br><a href="https://github.com/zeyangli/Jenkinsdocs/edit/master/content/chapter5/2.md" class="edit-page"><i class="fas fa-pen-square"></i> Edit on GitHub</a></div><nav class="pagination"><a class="nav nav-prev" href="/chapter5/1/" title="5-1 Jenkins Pipeline语法"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - 5-1 Jenkins Pipeline语法</a>
+<a class="nav nav-next" href="/chapter6/" title="第六章 Jenkins流水线实践">Next - 第六章 Jenkins流水线实践 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</nav><footer><p class="powered">Powered by <a href="https://gohugo.io">Hugo</a>. Theme by <a href="https://themes.gohugo.io/hugo-theme-techdoc/">TechDoc</a>. Designed by <a href="https://github.com/thingsym/hugo-theme-techdoc">Thingsym</a>.</p>
+</footer>
+</main><div class="sidebar">
+<nav>
+<ul>
+<li class=""><a href="http://zeyangli.github.io">Home</a></li>
+
+<li class=""><a href="/chapter1/">第一章 认识Jenkins</a>
+<ul class="">
+<li class=""><a href="/chapter1/1/">1-1 Jenkins简介</a></li>
+<li class=""><a href="/chapter1/2/">1-2 Jenkins WebUI</a></li>
+<li class=""><a href="/chapter1/3/">1-3 Jenkins构建</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter2/">第二章 安装Jenkins</a>
+<ul class="">
+<li class=""><a href="/chapter2/1/">2-1 基于WAR包部署</a></li>
+<li class=""><a href="/chapter2/2/">2-2 基于MAC系统部署</a></li>
+<li class=""><a href="/chapter2/3/">2-3 基于Windows系统部署</a></li>
+<li class=""><a href="/chapter2/4/">2-4 基于Linux系统部署（推荐）</a></li>
+<li class=""><a href="/chapter2/5/">2-5 安装后配置</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter3/">第三章 管理Jenkins</a>
+<ul class="">
+<li class=""><a href="/chapter3/1/">3-1 用户管理</a></li>
+<li class=""><a href="/chapter3/2/">3-2 凭据管理</a></li>
+<li class=""><a href="/chapter3/3/">3-3 权限管理</a></li>
+<li class=""><a href="/chapter3/4/">3-4 项目管理</a></li>
+<li class=""><a href="/chapter3/5/">3-5 视图管理</a></li>
+<li class=""><a href="/chapter3/6/">3-6 插件管理</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter4/">第四章 Jenkins工具集成</a>
+<ul class="">
+
+<li class=""><a href="/chapter4/chapter4-1/">4-1 构建工具集成</a>
+<ul class="">
+<li class=""><a href="/chapter4/chapter4-1/1/">4-1-1 集成maven</a></li>
+<li class=""><a href="/chapter4/chapter4-1/2/">4-1-2 集成ant</a></li>
+<li class=""><a href="/chapter4/chapter4-1/3/">4-1-3 集成gradle</a></li>
+<li class=""><a href="/chapter4/chapter4-1/4/">4-1-4 集成npm</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter4/chapter4-2/">4-2 Ldap用户认证集成</a>
+<ul class="">
+<li class=""><a href="/chapter4/chapter4-2/1/">4-2-1 安装Ldap服务</a></li>
+<li class=""><a href="/chapter4/chapter4-2/2/">4-2-2 安装Ldap控制台</a></li>
+<li class=""><a href="/chapter4/chapter4-2/3/">4-2-3 配置Ldap服务</a></li>
+<li class=""><a href="/chapter4/chapter4-2/4/">4-2-4 创建OU组织用户数据</a></li>
+<li class=""><a href="/chapter4/chapter4-2/5/">4-2-5 Jenkins集成Ldap</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter4/chapter4-3/">4-3 Gitlab集成</a>
+<ul class="">
+<li class=""><a href="/chapter4/chapter4-3/1/">4-3-1 Jenkins集成Gitlab SSO单点登录</a></li>
+<li class=""><a href="/chapter4/chapter4-3/2/">4-3-2 WebHook集成</a></li>
+</ul>
+  
+</li>
+<li class=""><a href="/chapter4/2/">4-4 Jenkins集成SaltStack批量自动化发布</a></li>
+<li class=""><a href="/chapter4/3/">4-5 Jenkins制品库集成-Nexus</a></li>
+<li class=""><a href="/chapter4/4/">4-6 Jenkins集成禅道</a></li>
+<li class=""><a href="/chapter4/5/">4-7 Jenkins集成制品库-Artifactory</a></li>
+<li class=""><a href="/chapter4/6/">4-8 Jenkins集成SonarQube</a></li>
+</ul>
+  
+</li>
+
+<li class="parent"><a href="/chapter5/">第五章 JenkinsPipeline   [待更新😄]</a>
+<ul class="sub-menu">
+<li class=""><a href="/chapter5/1/">5-1 Jenkins Pipeline语法</a></li>
+<li class="active"><a href="/chapter5/2/">5-2 Jenkins 声明式与脚本式语法</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter6/">第六章 Jenkins流水线实践</a>
+<ul class="">
+<li class=""><a href="/chapter6/1/">6-1 前端静态资源发布流水线</a></li>
+<li class=""><a href="/chapter6/2/">6-2 NodeJs项目发布流水线</a></li>
+<li class=""><a href="/chapter6/3/">6-3 Dotnet项目发布流水线</a></li>
+<li class=""><a href="/chapter6/4/">6-4 JAVA-Springboot项目发布流水线</a></li>
+<li class=""><a href="/chapter6/5/">6-5 Golang项目发布流水线</a></li>
+
+<li class=""><a href="/chapter6/chapter6-6/">6-6 移动端Android项目发布流水线</a>
+<ul class="">
+<li class=""><a href="/chapter6/chapter6-6/1/">6-6-1 搭建Android打包环境（Centos）</a></li>
+<li class=""><a href="/chapter6/chapter6-6/2/">6-6-2 手动发布Android项目</a></li>
+<li class=""><a href="/chapter6/chapter6-6/3/">6-6-3 Jenkins发布流水线（Fir|蒲公英）</a></li>
+</ul>
+  
+</li>
+</ul>
+  
+</li>
+</ul>
+</nav>
+
+
+<div class="sidebar-footer"></div>
+</div>
+</div><a href="#" id="backtothetop-fixed" class="backtothetop"
+ data-backtothetop-duration="600"
+ data-backtothetop-easing="easeOutQuart"
+ data-backtothetop-fixed-fadeIn="1000"
+ data-backtothetop-fixed-fadeOut="1000"
+ data-backtothetop-fixed-bottom="10"
+ data-backtothetop-fixed-right="20">
+<span class="fa-layers fa-fw">
+<i class="fas fa-circle"></i>
+<i class="fas fa-arrow-circle-up"></i>
+</span></a>
+</div>
+</body>
+</html>

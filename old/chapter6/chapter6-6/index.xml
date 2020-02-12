@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>6-6 移动端Android项目发布流水线 on Jenkins2 Pipeline Docs</title>
+    <link>http://zeyangli.github.io/chapter6/chapter6-6/</link>
+    <description>Recent content in 6-6 移动端Android项目发布流水线 on Jenkins2 Pipeline Docs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 17 Oct 2017 15:26:15 +0000</lastBuildDate>
+    
+	<atom:link href="http://zeyangli.github.io/chapter6/chapter6-6/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>6-6-1 搭建Android打包环境（Centos）</title>
+      <link>http://zeyangli.github.io/chapter6/chapter6-6/1/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter6/chapter6-6/1/</guid>
+      <description>1.安装JDK 下载地址: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html tar zxf jdk-8u201-linux-x64.tar.gz -C /usr/local #添加到/etc/profile export JAVA_HOME=/usr/local/jdk1.8.0_201 export PATH=$PATH:$JAVA_HOME/bin source /etc/profile java -version 2.安装Android SDK Tools 需要翻墙: https://developer.android.com/studio/index.html #解压后会有一个t</description>
+    </item>
+    
+    <item>
+      <title>6-6-2 手动发布Android项目</title>
+      <link>http://zeyangli.github.io/chapter6/chapter6-6/2/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter6/chapter6-6/2/</guid>
+      <description>1.检出代码 项目地址: https://github.com/zeyangli/helloworld-android-gradle.git git clone https://github.com/zeyangli/helloworld-android-gradle.git 2.构建打包 目录: helloworld-android-gradle cd helloworld-android-gradle ./gradlew build Download https://jcenter.bintray.com/com/loopj/android/android-async-http/1.4.9/android-async-http-1.4.9.jar Download https://jcenter.bintray.com/cz/msebera/android/httpclient/4.3.6/httpclient-4.3.6.jar Download https://jcenter.bintray.com/com/google/code/gson/gson/2.8.1/gson-2.8.1.jar Download https://dl.google.com/dl/android/maven2/android/arch/lifecycle/common/1.0.0/common-1.0.0.jar Download https://dl.google.com/dl/android/maven2/android/arch/core/common/1.0.0/common-1.0.0.jar Unknown file extension: app/src/main/res/mipmap-xhdpi/ic_launcher.png Unknown file extension: app/src/main/res/mipmap-mdpi/ic_launcher.png Unknown file extension: app/src/main/res/mipmap-xxhdpi/ic_launcher.png Unknown file extension: app/src/main/res/mipmap-hdpi/ic_launcher.png Unknown file extension: app/src/main/res/mipmap-xxxhdpi/ic_launcher.png &amp;gt; Task :app:lint Ran lint on variant release: 4 issues found</description>
+    </item>
+    
+    <item>
+      <title>6-6-3 Jenkins发布流水线（Fir|蒲公英）</title>
+      <link>http://zeyangli.github.io/chapter6/chapter6-6/3/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter6/chapter6-6/3/</guid>
+      <description>1.项目配置 1.1 项目规范 打包存放路径: 统一在app/build/outputs/apk/[debug|release]目录下。 1.2 编写上传包脚本</description>
+    </item>
+    
+  </channel>
+</rss>

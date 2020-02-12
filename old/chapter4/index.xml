@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>第四章 Jenkins工具集成 on Jenkins2 Pipeline Docs</title>
+    <link>http://zeyangli.github.io/chapter4/</link>
+    <description>Recent content in 第四章 Jenkins工具集成 on Jenkins2 Pipeline Docs</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 17 Oct 2017 15:26:15 +0000</lastBuildDate>
+    
+	<atom:link href="http://zeyangli.github.io/chapter4/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>4-4 Jenkins集成SaltStack批量自动化发布</title>
+      <link>http://zeyangli.github.io/chapter4/2/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter4/2/</guid>
+      <description>1. 安装saltstack saltstack原理详细可以参考saltstack官方文档 1.1 安装salt-master（jenkins） yum -y install salt-master service</description>
+    </item>
+    
+    <item>
+      <title>4-5 Jenkins制品库集成-Nexus</title>
+      <link>http://zeyangli.github.io/chapter4/3/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter4/3/</guid>
+      <description>demo地址: https://github.com/zeyangli/springboot-helloworld.git 总体目标 开发人员提交代码，更新pom信息。jenkins读取pom文件中的信息，通过nexus插件上传到nexus。通过ne</description>
+    </item>
+    
+    <item>
+      <title>4-6 Jenkins集成禅道</title>
+      <link>http://zeyangli.github.io/chapter4/4/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter4/4/</guid>
+      <description>总体目标 在禅道中，看板上的任务完成或者切换到某个指定的状态，触发Jenkins构建。 Jenkins配置 设置项目参数化构建 禅道系统配置 禅道系统</description>
+    </item>
+    
+    <item>
+      <title>4-7 Jenkins集成制品库-Artifactory</title>
+      <link>http://zeyangli.github.io/chapter4/5/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter4/5/</guid>
+      <description>Jenkins集成制品库-Artifactory</description>
+    </item>
+    
+    <item>
+      <title>4-8 Jenkins集成SonarQube</title>
+      <link>http://zeyangli.github.io/chapter4/6/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter4/6/</guid>
+      <description>Jenkins集成SonarQube</description>
+    </item>
+    
+  </channel>
+</rss>

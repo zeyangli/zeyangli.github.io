@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>5-1 Jenkins Pipeline语法 - Jenkins2 Pipeline Docs</title>
+<meta name="description" content="☁️☀️🌫🌩">
+<meta name="generator" content="Hugo 0.58.1" />
+<link href="http://zeyangli.github.ioindex.xml" rel="alternate" type="application/rss+xml">
+<link rel="canonical" href="http://zeyangli.github.io/chapter5/1/">
+<link rel="stylesheet" href="http://zeyangli.github.io/css/theme.min.css">
+<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+<link rel="stylesheet" href="http://zeyangli.github.io/css/chroma.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="http://zeyangli.github.io/js/functions.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js"></script>
+<script src="http://zeyangli.github.io/js/jquery.backtothetop/jquery.backtothetop.min.js"></script></head>
+<body>
+<div class="container"><header>
+<h1>Jenkins2 Pipeline Docs</h1>
+
+ <span class="version">Version 0.0.1</span>
+<a href="https://github.com/zeyangli/Jenkinsdocs" class="github"><i class="fab fa-github"></i></a>
+<p class="description">☁️☀️🌫🌩</p>
+
+</header>
+<div class="menu">
+<nav>
+<ul>
+<li><a href="/">Home</a></li></ul>
+</nav>
+</div>
+<div class="content-container">
+<main><h1>5-1 Jenkins Pipeline语法</h1>
+
+<h2 id="1-认识pipleine">1. 认识Pipleine</h2>
+
+<h3 id="1-1-pipeline是什么">1.1 Pipeline是什么？</h3>
+
+<ul>
+<li>Pipeline是Jenkins的核心功能，提供一组可扩展的工具。</li>
+<li>通过Pipeline 的DSL语法可以完成从简单到复杂的交付流水线实现。</li>
+<li>jenkins的Pipeline是通过Jenkinsfile（文本文件）来实现的。</li>
+<li>这个文件可以定义Jenkins的执行步骤，例如检出代码。</li>
+</ul>
+
+<h3 id="1-2-jenkinsfile">1.2 Jenkinsfile</h3>
+
+<ul>
+<li>Jenkinsfile使用两种语法进行编写，分别是声明式和脚本式。</li>
+<li>声明式和脚本式的流水线从根本上是不同的。</li>
+<li>声明式是jenkins流水线更友好的特性。</li>
+<li>脚本式的流水线语法，提供更丰富的语法特性。</li>
+<li>声明式流水线使编写和读取流水线代码更容易设计。</li>
+</ul>
+
+<h3 id="1-3-为什么使用pipeline">1.3 为什么使用Pipeline？</h3>
+
+<p>本质上，jenkins是一个自动化引擎，它支持许多自动模式。流水线向Jenkins添加了一组强大的工具，支持用例、简单的持续集成到全面的持续交付流水线。
+通过对一系列的发布任务建立标准的模板，用户可以利用更多流水线的特性，比如：
+- 代码化: 流水线是在代码中实现的，通常会存放到源代码控制，使团队具有编辑、审查和更新他们项目的交付流水线的能力。
+- 耐用性：流水线可以从Jenkins的master节点重启后继续运行。
+- 可暂停的：流水线可以由人功输入或批准继续执行流水线。
+- 解决复杂发布： 支持复杂的交付流程。例如循环、并行执行。
+- 可扩展性： 支持扩展DSL和其他插件集成。</p>
+
+<p>构建一个可扩展是Jenkins的核心价值，流水线可以通过ShareLibrary的方式来扩展。
+下面是一个CD的场景实例</p>
+
+<p><img src="../static/image/09/01-pipeline1.png" alt="管理页面" /></p>
+
+<h2 id="2-pipeline概念">2. Pipeline概念</h2>
+
+<p>参考文档：<a href="https://jenkins.io/zh/doc/book/pipeline/">https://jenkins.io/zh/doc/book/pipeline/</a></p>
+
+<h3 id="2-1-node-agent-节点">2.1 node/agent(节点)</h3>
+
+<p>节点是一个机器，可以是Jenkins的master节点也可以是slave节点。通过node指定当前job运行的机器（这个是脚本式语法）。</p>
+
+<ul>
+<li><p>声明式Pipeline: 使用agent指定运行的slave节点可以是label。</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span><span class="o">{</span>
+<span class="n">agent</span> <span class="n">any</span>
+<span class="n">stages</span><span class="o">{</span>
+   <span class="c1">//    
+</span><span class="c1"></span><span class="o">}</span>
+
+<span class="o">}</span></code></pre></div></li>
+
+<li><p>脚本式Pipleine： 使用node指定运行slave可以是label。</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">node</span><span class="o">(</span><span class="s2">&#34;slave&#34;</span><span class="o">){</span>
+<span class="n">stage</span><span class="o">(</span><span class="s2">&#34;GetCode&#34;</span><span class="o">){</span>
+    <span class="c1">//
+</span><span class="c1"></span><span class="o">}</span>
+<span class="o">}</span></code></pre></div></li>
+</ul>
+
+<h3 id="2-2-stage-阶段">2.2 stage(阶段)</h3>
+
+<p>stage定义了在整个流水线的执行任务的概念性的不同的阶段。例如： GetCode、Build、Test、Deploy、CodeScan每个阶段。</p>
+
+<ul>
+<li><p>声明式pipeline： 定义stages-&gt;stage。</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span><span class="o">{</span>
+<span class="n">agent</span> <span class="n">any</span>
+<span class="n">stages</span><span class="o">{</span>
+    <span class="n">stage</span><span class="o">(</span><span class="s2">&#34;GetCode&#34;</span><span class="o">){</span>
+        <span class="c1">//steps  
+</span><span class="c1"></span>    <span class="o">}</span>
+        
+    <span class="n">stage</span><span class="o">(</span><span class="s2">&#34;build&#34;</span><span class="o">){</span>
+       <span class="c1">//step
+</span><span class="c1"></span>    <span class="o">}</span>
+    
+<span class="o">}</span>
+
+<span class="o">}</span></code></pre></div></li>
+
+<li><p>脚本式Pipeline: 直接使用stage。</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">node</span><span class="o">(</span><span class="s2">&#34;slave&#34;</span><span class="o">){</span>
+<span class="n">stage</span><span class="o">(</span><span class="s2">&#34;GetCode&#34;</span><span class="o">){</span>
+    <span class="c1">//
+</span><span class="c1"></span><span class="o">}</span>
+    
+<span class="n">stage</span><span class="o">(</span><span class="s2">&#34;build&#34;</span><span class="o">){</span>
+    <span class="c1">//
+</span><span class="c1"></span><span class="o">}</span>
+<span class="o">}</span></code></pre></div></li>
+</ul>
+
+<h3 id="2-3-step-步骤">2.3 step(步骤)</h3>
+
+<p>step是每个阶段中要执行的每个步骤。例如： 在执行GetCode的时候需要判断用户提供的参数srcType的值是Git还是svn。</p>
+
+<ul>
+<li><p>声明式Pipeline: stage-&gt;steps。</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">pipeline</span><span class="o">{</span>
+<span class="n">agent</span> <span class="n">any</span>
+<span class="n">stages</span><span class="o">{</span>
+    <span class="n">stage</span><span class="o">(</span><span class="s2">&#34;GetCode&#34;</span><span class="o">){</span>
+        <span class="n">steps</span><span class="o">{</span> 
+            <span class="n">sh</span> <span class="s2">&#34;ls &#34;</span>    <span class="c1">//step
+</span><span class="c1"></span>        <span class="o">}</span>
+        
+    <span class="o">}</span>    
+<span class="o">}</span>
+
+<span class="o">}</span></code></pre></div></li>
+
+<li><p>脚本式Pipeline： 不需要step关键字。</p>
+<div class="highlight"><pre class="chroma"><code class="language-groovy" data-lang="groovy"><span class="n">node</span><span class="o">(</span><span class="s2">&#34;slave&#34;</span><span class="o">){</span>
+<span class="n">stage</span><span class="o">(</span><span class="s2">&#34;GetCode&#34;</span><span class="o">){</span>
+    <span class="c1">//step
+</span><span class="c1"></span>    <span class="k">if</span><span class="o">(</span><span class="s2">&#34;${srcType}&#34;</span> <span class="o">==</span> <span class="s2">&#34;Git&#34;</span><span class="o">){</span>
+        <span class="c1">//用git方式代码检出
+</span><span class="c1"></span>    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="s2">&#34;${srcType}&#34;</span> <span class="o">==</span> <span class="s2">&#34;SVN&#34;</span><span class="o">){</span>
+        <span class="c1">//用svn方式代码检出
+</span><span class="c1"></span>    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">error</span> <span class="s2">&#34;srcType is not in [Git|SVN]&#34;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="o">}</span></code></pre></div></li>
+</ul>
+
+<h2 id="3-jenkinsfile生成与管理">3. Jenkinsfile生成与管理</h2>
+
+<h3 id="3-1-blueocean-生成">3.1 BlueOcean（生成）</h3>
+
+<p>如果你是新手，Blue Ocean可以帮助你设置流水线，通过图形化流水线编辑器自动创建和编写Jenkinsfile。（需要安装blueocean 插件）</p>
+
+<h3 id="3-2-webui-管理">3.2 WEBUI（管理）</h3>
+
+<p>项目-&gt;配置
+<img src="../static/image/09/01-pipeline2.png" alt="管理页面" /></p>
+
+<h3 id="3-3-scm-管理">3.3 SCM（管理）</h3>
+
+<p>Jenkinsfile编写完成后上传到gitlab进行版本控制。
+<img src="../static/image/09/01-pipeline3.png" alt="管理页面" /></p>
+
+<p>使用时，通过项目的配置gitlab仓库地址和分支信息以及文件名称信息。
+<img src="../static/image/09/01-pipeline4.png" alt="管理页面" /></p>
+<div class="edit-meta">
+Last updated on 17 Oct 2017
+
+
+<br>
+Published on 17 Oct 2017
+<br><a href="https://github.com/zeyangli/Jenkinsdocs/edit/master/content/chapter5/1.md" class="edit-page"><i class="fas fa-pen-square"></i> Edit on GitHub</a></div><nav class="pagination"><a class="nav nav-prev" href="/chapter5/" title="第五章 JenkinsPipeline   [待更新😄]"><i class="fas fa-arrow-left" aria-hidden="true"></i> Prev - 第五章 JenkinsPipeline   [待更新😄]</a>
+<a class="nav nav-next" href="/chapter5/2/" title="5-2 Jenkins 声明式与脚本式语法">Next - 5-2 Jenkins 声明式与脚本式语法 <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+</nav><footer><p class="powered">Powered by <a href="https://gohugo.io">Hugo</a>. Theme by <a href="https://themes.gohugo.io/hugo-theme-techdoc/">TechDoc</a>. Designed by <a href="https://github.com/thingsym/hugo-theme-techdoc">Thingsym</a>.</p>
+</footer>
+</main><div class="sidebar">
+<nav>
+<ul>
+<li class=""><a href="http://zeyangli.github.io">Home</a></li>
+
+<li class=""><a href="/chapter1/">第一章 认识Jenkins</a>
+<ul class="">
+<li class=""><a href="/chapter1/1/">1-1 Jenkins简介</a></li>
+<li class=""><a href="/chapter1/2/">1-2 Jenkins WebUI</a></li>
+<li class=""><a href="/chapter1/3/">1-3 Jenkins构建</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter2/">第二章 安装Jenkins</a>
+<ul class="">
+<li class=""><a href="/chapter2/1/">2-1 基于WAR包部署</a></li>
+<li class=""><a href="/chapter2/2/">2-2 基于MAC系统部署</a></li>
+<li class=""><a href="/chapter2/3/">2-3 基于Windows系统部署</a></li>
+<li class=""><a href="/chapter2/4/">2-4 基于Linux系统部署（推荐）</a></li>
+<li class=""><a href="/chapter2/5/">2-5 安装后配置</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter3/">第三章 管理Jenkins</a>
+<ul class="">
+<li class=""><a href="/chapter3/1/">3-1 用户管理</a></li>
+<li class=""><a href="/chapter3/2/">3-2 凭据管理</a></li>
+<li class=""><a href="/chapter3/3/">3-3 权限管理</a></li>
+<li class=""><a href="/chapter3/4/">3-4 项目管理</a></li>
+<li class=""><a href="/chapter3/5/">3-5 视图管理</a></li>
+<li class=""><a href="/chapter3/6/">3-6 插件管理</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter4/">第四章 Jenkins工具集成</a>
+<ul class="">
+
+<li class=""><a href="/chapter4/chapter4-1/">4-1 构建工具集成</a>
+<ul class="">
+<li class=""><a href="/chapter4/chapter4-1/1/">4-1-1 集成maven</a></li>
+<li class=""><a href="/chapter4/chapter4-1/2/">4-1-2 集成ant</a></li>
+<li class=""><a href="/chapter4/chapter4-1/3/">4-1-3 集成gradle</a></li>
+<li class=""><a href="/chapter4/chapter4-1/4/">4-1-4 集成npm</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter4/chapter4-2/">4-2 Ldap用户认证集成</a>
+<ul class="">
+<li class=""><a href="/chapter4/chapter4-2/1/">4-2-1 安装Ldap服务</a></li>
+<li class=""><a href="/chapter4/chapter4-2/2/">4-2-2 安装Ldap控制台</a></li>
+<li class=""><a href="/chapter4/chapter4-2/3/">4-2-3 配置Ldap服务</a></li>
+<li class=""><a href="/chapter4/chapter4-2/4/">4-2-4 创建OU组织用户数据</a></li>
+<li class=""><a href="/chapter4/chapter4-2/5/">4-2-5 Jenkins集成Ldap</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter4/chapter4-3/">4-3 Gitlab集成</a>
+<ul class="">
+<li class=""><a href="/chapter4/chapter4-3/1/">4-3-1 Jenkins集成Gitlab SSO单点登录</a></li>
+<li class=""><a href="/chapter4/chapter4-3/2/">4-3-2 WebHook集成</a></li>
+</ul>
+  
+</li>
+<li class=""><a href="/chapter4/2/">4-4 Jenkins集成SaltStack批量自动化发布</a></li>
+<li class=""><a href="/chapter4/3/">4-5 Jenkins制品库集成-Nexus</a></li>
+<li class=""><a href="/chapter4/4/">4-6 Jenkins集成禅道</a></li>
+<li class=""><a href="/chapter4/5/">4-7 Jenkins集成制品库-Artifactory</a></li>
+<li class=""><a href="/chapter4/6/">4-8 Jenkins集成SonarQube</a></li>
+</ul>
+  
+</li>
+
+<li class="parent"><a href="/chapter5/">第五章 JenkinsPipeline   [待更新😄]</a>
+<ul class="sub-menu">
+<li class="active"><a href="/chapter5/1/">5-1 Jenkins Pipeline语法</a></li>
+<li class=""><a href="/chapter5/2/">5-2 Jenkins 声明式与脚本式语法</a></li>
+</ul>
+  
+</li>
+
+<li class=""><a href="/chapter6/">第六章 Jenkins流水线实践</a>
+<ul class="">
+<li class=""><a href="/chapter6/1/">6-1 前端静态资源发布流水线</a></li>
+<li class=""><a href="/chapter6/2/">6-2 NodeJs项目发布流水线</a></li>
+<li class=""><a href="/chapter6/3/">6-3 Dotnet项目发布流水线</a></li>
+<li class=""><a href="/chapter6/4/">6-4 JAVA-Springboot项目发布流水线</a></li>
+<li class=""><a href="/chapter6/5/">6-5 Golang项目发布流水线</a></li>
+
+<li class=""><a href="/chapter6/chapter6-6/">6-6 移动端Android项目发布流水线</a>
+<ul class="">
+<li class=""><a href="/chapter6/chapter6-6/1/">6-6-1 搭建Android打包环境（Centos）</a></li>
+<li class=""><a href="/chapter6/chapter6-6/2/">6-6-2 手动发布Android项目</a></li>
+<li class=""><a href="/chapter6/chapter6-6/3/">6-6-3 Jenkins发布流水线（Fir|蒲公英）</a></li>
+</ul>
+  
+</li>
+</ul>
+  
+</li>
+</ul>
+</nav>
+
+
+<div class="sidebar-footer"></div>
+</div>
+</div><a href="#" id="backtothetop-fixed" class="backtothetop"
+ data-backtothetop-duration="600"
+ data-backtothetop-easing="easeOutQuart"
+ data-backtothetop-fixed-fadeIn="1000"
+ data-backtothetop-fixed-fadeOut="1000"
+ data-backtothetop-fixed-bottom="10"
+ data-backtothetop-fixed-right="20">
+<span class="fa-layers fa-fw">
+<i class="fas fa-circle"></i>
+<i class="fas fa-arrow-circle-up"></i>
+</span></a>
+</div>
+</body>
+</html>
