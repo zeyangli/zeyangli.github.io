@@ -3,290 +3,266 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/cont/pages/</loc>
-    <lastmod>2016-04-09T16:50:16+02:00</lastmod>
+    <loc>http://zeyangli.github.io/chapter2/1/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/basics/</loc>
+    <loc>http://zeyangli.github.io/chapter1/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/cont/</loc>
-    <lastmod>2018-11-29T08:41:44+01:00</lastmod>
+    <loc>http://zeyangli.github.io/chapter2/2/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/cont/archetypes/</loc>
+    <loc>http://zeyangli.github.io/chapter2/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/cont/archetypes.fr/</loc>
+    <loc>http://zeyangli.github.io/chapter2/3/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/basics/introduction/</loc>
+    <loc>http://zeyangli.github.io/chapter4/chapter4-1/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/pipelinesyntax/</loc>
+    <loc>http://zeyangli.github.io/chapter4/chapter4-2/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/shortcodes/</loc>
-    <lastmod>2016-04-09T16:50:16+02:00</lastmod>
+    <loc>http://zeyangli.github.io/chapter4/chapter4-3/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/cont/markdown/</loc>
-    <lastmod>2016-04-09T16:50:16+02:00</lastmod>
+    <loc>http://zeyangli.github.io/chapter3/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/cont/markdown.fr/</loc>
-    <lastmod>2016-04-09T16:50:16+02:00</lastmod>
+    <loc>http://zeyangli.github.io/chapter2/4/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/pipelineintegrated/chapter01/</loc>
+    <loc>http://zeyangli.github.io/chapter4/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/basics/installation/</loc>
+    <loc>http://zeyangli.github.io/chapter2/5/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/pipelinesyntax/chapter01/</loc>
+    <loc>http://zeyangli.github.io/chapter5/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/pipelineintegrated/</loc>
+    <loc>http://zeyangli.github.io/chapter6/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/basics/userandpermissions/</loc>
-    <lastmod>2016-04-09T16:50:16+02:00</lastmod>
+    <loc>http://zeyangli.github.io/</loc>
+    <lastmod>2019-09-08T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/pipelineintegrated/chapter02/</loc>
+    <loc>http://zeyangli.github.io/chapter1/1/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/pipelinesyntax/chapter02/</loc>
+    <loc>http://zeyangli.github.io/chapter1/2/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/pipelinestack/</loc>
+    <loc>http://zeyangli.github.io/chapter1/3/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/cont/menushortcuts/</loc>
-    <lastmod>2016-04-09T16:50:16+02:00</lastmod>
+    <loc>http://zeyangli.github.io/chapter3/1/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/cont/menushortcuts.fr/</loc>
-    <lastmod>2016-04-09T16:50:16+02:00</lastmod>
+    <loc>http://zeyangli.github.io/chapter3/2/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/pipelineintegrated/chapter03/</loc>
+    <loc>http://zeyangli.github.io/chapter3/3/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/pipelinesyntax/chapter03/</loc>
+    <loc>http://zeyangli.github.io/chapter3/4/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/basics/credential/</loc>
+    <loc>http://zeyangli.github.io/chapter3/5/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/pipelineextension/</loc>
+    <loc>http://zeyangli.github.io/chapter3/6/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/cont/icons/</loc>
+    <loc>http://zeyangli.github.io/chapter4/chapter4-1/1/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/cont/i18n/</loc>
-    <lastmod>2016-04-09T16:50:16+02:00</lastmod>
+    <loc>http://zeyangli.github.io/chapter4/chapter4-1/2/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/pipelineintegrated/chapter04/</loc>
+    <loc>http://zeyangli.github.io/chapter4/chapter4-1/3/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/pipelinesyntax/chapter04/</loc>
+    <loc>http://zeyangli.github.io/chapter4/chapter4-1/4/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/basics/projectandview/</loc>
+    <loc>http://zeyangli.github.io/chapter4/chapter4-2/1/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/pipelineintegrated/chapter05/</loc>
+    <loc>http://zeyangli.github.io/chapter4/chapter4-2/2/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/pipelinesyntax/chapter05/</loc>
+    <loc>http://zeyangli.github.io/chapter4/chapter4-2/3/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/cont/tags/</loc>
-    <lastmod>2018-11-29T08:41:44+01:00</lastmod>
+    <loc>http://zeyangli.github.io/chapter4/chapter4-2/4/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/cont/tags.fr/</loc>
-    <lastmod>2018-11-29T08:41:44+01:00</lastmod>
+    <loc>http://zeyangli.github.io/chapter4/chapter4-2/5/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/pipelineintegrated/chapter06/</loc>
+    <loc>http://zeyangli.github.io/chapter4/chapter4-3/1/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/pipelineintegrated/chapter07/</loc>
+    <loc>http://zeyangli.github.io/chapter4/chapter4-3/2/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/pipelineintegrated/chapter08/</loc>
+    <loc>http://zeyangli.github.io/chapter4/2/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/documentation/</loc>
-    <lastmod>2018-11-29T08:41:44+01:00</lastmod>
+    <loc>http://zeyangli.github.io/chapter4/3/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/</loc>
-    <lastmod>2018-11-29T08:41:44+01:00</lastmod>
+    <loc>http://zeyangli.github.io/chapter4/4/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/tutorial/</loc>
-    <lastmod>2018-11-29T08:41:44+01:00</lastmod>
+    <loc>http://zeyangli.github.io/chapter4/5/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/</loc>
-    <lastmod>2018-11-29T08:41:44+01:00</lastmod>
+    <loc>http://zeyangli.github.io/chapter4/6/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/shortcodes/attachments/</loc>
+    <loc>http://zeyangli.github.io/chapter5/1/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/shortcodes/attachments.fr/</loc>
+    <loc>http://zeyangli.github.io/chapter5/2/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/shortcodes/button/</loc>
+    <loc>http://zeyangli.github.io/chapter6/1/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/shortcodes/button.fr/</loc>
+    <loc>http://zeyangli.github.io/chapter6/2/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/categories/</loc>
+    <loc>http://zeyangli.github.io/chapter6/3/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/shortcodes/children/</loc>
+    <loc>http://zeyangli.github.io/chapter6/4/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/credits/</loc>
+    <loc>http://zeyangli.github.io/chapter6/5/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/shortcodes/expand/</loc>
+    <loc>http://zeyangli.github.io/chapter6/chapter6-6/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/shortcodes/expand.fr/</loc>
+    <loc>http://zeyangli.github.io/chapter6/chapter6-6/1/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/shortcodes/mermaid/</loc>
+    <loc>http://zeyangli.github.io/chapter6/chapter6-6/2/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/shortcodes/mermaid.fr/</loc>
+    <loc>http://zeyangli.github.io/chapter6/chapter6-6/3/</loc>
+    <lastmod>2017-10-17T15:26:15+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/shortcodes/notice/</loc>
+    <loc>http://zeyangli.github.io/categories/</loc>
   </url>
   
   <url>
-    <loc>/shortcodes/notice.fr/</loc>
-  </url>
-  
-  <url>
-    <loc>/shortcodes/children/children-1/</loc>
-  </url>
-  
-  <url>
-    <loc>/shortcodes/children/children-1/children-1-1/</loc>
-  </url>
-  
-  <url>
-    <loc>/shortcodes/children/children-1/children-1-1/children-1-1-1/</loc>
-  </url>
-  
-  <url>
-    <loc>/shortcodes/children/children-1/children-1-1/children-1-1-1/children-1-1-1-1/</loc>
-  </url>
-  
-  <url>
-    <loc>/shortcodes/children/children-1/children-1-1/children-1-1-1/children-1-1-1-1/children-1-1-1-1-1/</loc>
-  </url>
-  
-  <url>
-    <loc>/shortcodes/children/children-2/</loc>
-  </url>
-  
-  <url>
-    <loc>/shortcodes/children/children-3/</loc>
-  </url>
-  
-  <url>
-    <loc>/shortcodes/children/children-4/</loc>
-  </url>
-  
-  <url>
-    <loc>/shortcodes/children/test/</loc>
-  </url>
-  
-  <url>
-    <loc>/shortcodes/children/test.fr/</loc>
-  </url>
-  
-  <url>
-    <loc>/shortcodes/children/children-2/test3/</loc>
-  </url>
-  
-  <url>
-    <loc>/shortcodes/children/children-2/test3.fr/</loc>
-  </url>
-  
-  <url>
-    <loc>/showcase/</loc>
-  </url>
-  
-  <url>
-    <loc>/shortcodes/siteparam/</loc>
-  </url>
-  
-  <url>
-    <loc>/shortcodes/siteparam.fr/</loc>
+    <loc>http://zeyangli.github.io/tags/</loc>
   </url>
   
 </urlset>

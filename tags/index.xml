@@ -1,33 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on 基于Jenkins的DevOps流水线实践</title>
-    <link>/tags/</link>
-    <description>Recent content in Tags on 基于Jenkins的DevOps流水线实践</description>
+    <title>Tags on Jenkins2 Pipeline Docs</title>
+    <link>http://zeyangli.github.io/tags/</link>
+    <description>Recent content in Tags on Jenkins2 Pipeline Docs</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-US</language>
-    <lastBuildDate>Thu, 29 Nov 2018 08:41:44 +0100</lastBuildDate>
+    <language>en-us</language>
     
-	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://zeyangli.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>documentation</title>
-      <link>/tags/documentation/</link>
-      <pubDate>Thu, 29 Nov 2018 08:41:44 +0100</pubDate>
-      
-      <guid>/tags/documentation/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>tutorial</title>
-      <link>/tags/tutorial/</link>
-      <pubDate>Thu, 29 Nov 2018 08:41:44 +0100</pubDate>
-      
-      <guid>/tags/tutorial/</guid>
-      <description></description>
-    </item>
     
   </channel>
 </rss>

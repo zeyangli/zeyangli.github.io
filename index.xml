@@ -1,320 +1,374 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>基于Jenkins的DevOps流水线实践</title>
-    <link>/</link>
-    <description>Recent content on 基于Jenkins的DevOps流水线实践</description>
+    <title>Jenkins2 Pipeline Docs</title>
+    <link>http://zeyangli.github.io/</link>
+    <description>Recent content on Jenkins2 Pipeline Docs</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-US</language>
-    <lastBuildDate>Thu, 29 Nov 2018 08:41:44 +0100</lastBuildDate>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 19 Oct 2017 15:26:15 +0000</lastBuildDate>
     
-	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://zeyangli.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Archetypes</title>
-      <link>/cont/archetypes/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>2-1 基于WAR包部署</title>
+      <link>http://zeyangli.github.io/chapter2/1/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/cont/archetypes/</guid>
-      <description>Using the command: hugo new [relative new content path], you can start a content file with the date and title automatically set. While this is a welcome feature, active writers need more : archetypes.
-It is pre-configured skeleton pages with default front matter. Please refer to the documentation for types of page to understand the differences.
-Chapter To create a Chapter page, run the following commands
-hugo new --kind chapter &amp;lt;name&amp;gt;/_index.</description>
+      <guid>http://zeyangli.github.io/chapter2/1/</guid>
+      <description>Jenkins的web应用程序archive（war）包是可以在任何支持Java的操作系统上运行。 Jenkins最新 war包 将下载的war包</description>
     </item>
     
     <item>
-      <title>Archétypes</title>
-      <link>/cont/archetypes.fr/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>2-2 基于MAC系统部署</title>
+      <link>http://zeyangli.github.io/chapter2/2/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/cont/archetypes.fr/</guid>
-      <description>En utilisant la commande: hugo new [chemin vers nouveau contenu], vous pouvez créer un nouveau fichier avec la date et le title automatiquement initialisé. Même si c&amp;rsquo;est une fonctionnalité intéressante, elle reste limitée pour les auteurs actifs qui ont besoin de mieux : les archetypes.
-Les archétypes sont des squelettes de pages préconfigurées avec un Front Matter par défaut. Merci de vous référer à la documentation pour connaitre les différents types de page.</description>
+      <guid>http://zeyangli.github.io/chapter2/2/</guid>
+      <description>下载软件包手动安装 brew install jenkins #安装jenkins最新版本 brew install jenkins-lts #安装jenkinsLTS版本</description>
     </item>
     
     <item>
-      <title>Markdown syntax</title>
-      <link>/cont/markdown/</link>
-      <pubDate>Sat, 09 Apr 2016 16:50:16 +0200</pubDate>
+      <title>2-3 基于Windows系统部署</title>
+      <link>http://zeyangli.github.io/chapter2/3/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/cont/markdown/</guid>
-      <description>This page is a shameful copy of the great Grav original page. Only difference is information about image customization (resizing, add CSS classes&amp;hellip;)
- Let&amp;rsquo;s face it: Writing content for the Web is tiresome. WYSIWYG editors help alleviate this task, but they generally result in horrible code, or worse yet, ugly web pages.
-Markdown is a better way to write HTML, without all the complexities and ugliness that usually accompanies it.</description>
+      <guid>http://zeyangli.github.io/chapter2/3/</guid>
+      <description>下载软件包通过向导安装即可。</description>
     </item>
     
     <item>
-      <title>Syntaxe Markdown</title>
-      <link>/cont/markdown.fr/</link>
-      <pubDate>Sat, 09 Apr 2016 16:50:16 +0200</pubDate>
+      <title>2-4 基于Linux系统部署（推荐）</title>
+      <link>http://zeyangli.github.io/chapter2/4/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/cont/markdown.fr/</guid>
-      <description>Cette page est une copie de la doc de Grav. La seule différence porte sur la personalisation des images (taille, ajout de classes CSS&amp;hellip;) Pour des raisons évidentes, cette page n&amp;rsquo;a pas été traduites en français 😁
- Let&amp;rsquo;s face it: Writing content for the Web is tiresome. WYSIWYG editors help alleviate this task, but they generally result in horrible code, or worse yet, ugly web pages.
-Markdown is a better way to write HTML, without all the complexities and ugliness that usually accompanies it.</description>
+      <guid>http://zeyangli.github.io/chapter2/4/</guid>
+      <description>下载软件包 rpm –ivh jenkins-2.150.3-1.1.noarch.rpm #安装 service jenkins start #启动服务 chkconfig jenkins on #开机自启</description>
     </item>
     
     <item>
-      <title>Menu extra shortcuts</title>
-      <link>/cont/menushortcuts/</link>
-      <pubDate>Sat, 09 Apr 2016 16:50:16 +0200</pubDate>
+      <title>2-5 安装后配置</title>
+      <link>http://zeyangli.github.io/chapter2/5/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/cont/menushortcuts/</guid>
-      <description>You can define additional menu entries or shortcuts in the navigation menu without any link to content.
-Basic configuration Edit the website configuration config.toml and add a [[menu.shortcuts]] entry for each link your want to add.
-Example from the current website:
-[[menu.shortcuts]] name = &amp;quot;&amp;lt;i class=&#39;fab fa-github&#39;&amp;gt;&amp;lt;/i&amp;gt; Github repo&amp;quot; identifier = &amp;quot;ds&amp;quot; url = &amp;quot;https://github.com/matcornic/hugo-theme-learn&amp;quot; weight = 10 [[menu.shortcuts]] name = &amp;quot;&amp;lt;i class=&#39;fas fa-camera&#39;&amp;gt;&amp;lt;/i&amp;gt; Showcases&amp;quot; url = &amp;quot;/showcase&amp;quot; weight = 11 [[menu.</description>
+      <guid>http://zeyangli.github.io/chapter2/5/</guid>
+      <description>解锁Jenkins 当您第一次访问Jenkins的时候，系统会要求您使用自动生成的密码对其进行解锁。 解锁秘钥可以通过$JENKINS_HOME</description>
     </item>
     
     <item>
-      <title>Raccourcis du menu</title>
-      <link>/cont/menushortcuts.fr/</link>
-      <pubDate>Sat, 09 Apr 2016 16:50:16 +0200</pubDate>
+      <title>1-1 Jenkins简介</title>
+      <link>http://zeyangli.github.io/chapter1/1/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/cont/menushortcuts.fr/</guid>
-      <description>Vous pouvez définir des entrées ou raccourcis supplémentaires dans le menu sans avoir besoin d&amp;rsquo;être lié à un contenu du site.
-Configuration simple Editez le fichier de configuration config.toml et ajoutez une entrée [[menu.shortcuts]] pour chaque lien que vous voulez ajouter.
-Exemple pour ce site:
-[[menu.shortcuts]] name = &amp;quot;&amp;lt;i class=&#39;fab fa-github&#39;&amp;gt;&amp;lt;/i&amp;gt; Github repo&amp;quot; identifier = &amp;quot;ds&amp;quot; url = &amp;quot;https://github.com/matcornic/hugo-theme-learn&amp;quot; weight = 10 [[menu.shortcuts]] name = &amp;quot;&amp;lt;i class=&#39;fas fa-camera&#39;&amp;gt;&amp;lt;/i&amp;gt; Showcases&amp;quot; url = &amp;quot;/showcase&amp;quot; weight = 11 [[menu.</description>
+      <guid>http://zeyangli.github.io/chapter1/1/</guid>
+      <description>1.1 Jenkins是什么？ Jenkins官网 Jenkins前身是Hudson，使用java语言开发的自动化发布工具。在中大型金融等企业中普遍使</description>
     </item>
     
     <item>
-      <title>Icons and logos</title>
-      <link>/cont/icons/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>1-2 Jenkins WebUI</title>
+      <link>http://zeyangli.github.io/chapter1/2/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/cont/icons/</guid>
-      <description>The Learn theme for Hugo loads the Font Awesome library, allowing you to easily display any icon or logo available in the Font Awesome free collection.
-Finding an icon Browse through the available icons in the Font Awesome Gallery. Notice that the free filter is enabled, as only the free icons are available by default.
-Once on the Font Awesome page for a specific icon, for example the page for the heart, copy the HTML reference and paste into the markdown content.</description>
+      <guid>http://zeyangli.github.io/chapter1/2/</guid>
+      <description>2.1 管理页面 系统管理页面包含系统管理、全局安全管理、全局工具配置、节点管理、授权管理、插件管理、系统备份管理、日志监控管理 2.2 项目管理页面 2.3 构建</description>
     </item>
     
     <item>
-      <title>Tags</title>
-      <link>/cont/tags/</link>
-      <pubDate>Thu, 29 Nov 2018 08:41:44 +0100</pubDate>
+      <title>1-3 Jenkins构建</title>
+      <link>http://zeyangli.github.io/chapter1/3/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/cont/tags/</guid>
-      <description>Learn theme support one default taxonomy of gohugo: the tag feature.
-Configuration Just add tags to any page:
---- date: 2018-11-29T08:41:44+01:00 title: Theme tutorial weight: 15 tags: [&amp;quot;tutorial&amp;quot;, &amp;quot;theme&amp;quot;] ---  Behavior The tags are displayed at the top of the page, in their insertion order.
-Each tag is a link to a Taxonomy page displaying all the articles with the given tag.
-List all the tags In the config.</description>
+      <guid>http://zeyangli.github.io/chapter1/3/</guid>
+      <description>3.1 Jenkins项目类型 3.2 Jenkins参数类型 凭据参数、字符参数、密码参数、布尔值参数、文件参数、文本参数、运行时参数、选项参数 3.3 Jenk</description>
     </item>
     
     <item>
-      <title>Tags</title>
-      <link>/cont/tags.fr/</link>
-      <pubDate>Thu, 29 Nov 2018 08:41:44 +0100</pubDate>
+      <title>3-1 用户管理</title>
+      <link>http://zeyangli.github.io/chapter3/1/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/cont/tags.fr/</guid>
-      <description>Le thème Learn supporte une des taxonomy par défaut de GoHugo : les tags.
-Configuration Il suffit d&amp;rsquo;ajouter un tableau de tags sur la page :
---- date: 2018-11-29T08:41:44+01:00 title: Tutoriel pour le thème weight: 15 tags: [&amp;quot;tutoriel&amp;quot;, &amp;quot;theme&amp;quot;] ---  Comportement Les tags sont affichés en haut de la page, dans l&amp;rsquo;ordre dans lequel ils ont été saisis.
-Chaque tag est un lien vers une page Taxonomy, qui affiche tous les article avec ce tag.</description>
+      <guid>http://zeyangli.github.io/chapter3/1/</guid>
+      <description>配置用户接入入口: 系统管理-&amp;gt;全局安全配置。 默认使用的是Jenkins数据库存储。 可以选择集成LDAP服务或者是GItlab服务（需要</description>
     </item>
     
     <item>
-      <title>Attachments</title>
-      <link>/shortcodes/attachments/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>3-2 凭据管理</title>
+      <link>http://zeyangli.github.io/chapter3/2/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/shortcodes/attachments/</guid>
-      <description>The Attachments shortcode displays a list of files attached to a page.
-  Attachments   BachGavotteShort.mp3  (357 ko)   Carroll_AliceAuPaysDesMerveilles.pdf  (175 ko)   adivorciarsetoca00cape.pdf  (361 ko)   hugo.png  (17 ko)   movieselectricsheep-flock-244-32500-2.mp4  (340 ko)    Usage The shortcurt lists files found in a specific folder. Currently, it support two implementations for pages
- If your page is a markdown file, attachements must be place in a folder named like your page and ending with .</description>
+      <guid>http://zeyangli.github.io/chapter3/2/</guid>
+      <description>凭据-&amp;gt; 系统-&amp;gt; 全局凭据 2.2 新建凭据 2.3 删除凭据 2.4 更新凭据 2.5 移动凭据 凭据支持多个域，支持将凭据移动到其他域中。</description>
     </item>
     
     <item>
-      <title>Attachments (Pièces jointes)</title>
-      <link>/shortcodes/attachments.fr/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>3-3 权限管理</title>
+      <link>http://zeyangli.github.io/chapter3/3/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/shortcodes/attachments.fr/</guid>
-      <description>Le shortcode Attachments affiche une liste de pièces jointes d&amp;rsquo;une page.
-  Attachments   BachGavotteShort.mp3  (357 ko)   Carroll_AliceAuPaysDesMerveilles.pdf  (175 ko)   adivorciarsetoca00cape.pdf  (361 ko)   hugo.png  (17 ko)   movieselectricsheep-flock-244-32500-2.mp4  (340 ko)    Utilisation Le shortcode affiche la liste de fichiers trouvés dans un dossier spécifique A l&amp;rsquo;heure actuelle, il supporte deux implémentations
- Si votre page est un fichier Markdown, les pièces jointes doivent être placée dans un dossier nommé comme le nom de la page et suffixé par .</description>
+      <guid>http://zeyangli.github.io/chapter3/3/</guid>
+      <description>权限默认使用 Role-Based Strategy,其他方式如图所示。 管理权限 系统设置-&amp;gt;Manage and Assign Roles-&amp;gt;Manage Roles Global roles：添加用户和用户组，分配某个用户</description>
     </item>
     
     <item>
-      <title>Button</title>
-      <link>/shortcodes/button/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>3-4 项目管理</title>
+      <link>http://zeyangli.github.io/chapter3/4/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/shortcodes/button/</guid>
-      <description>A button is a just a clickable button with optional icon.
-{{% button href=&amp;quot;https://getgrav.org/&amp;quot; %}}Get Grav{{% /button %}} {{% button href=&amp;quot;https://getgrav.org/&amp;quot; icon=&amp;quot;fas fa-download&amp;quot; %}}Get Grav with icon{{% /button %}} {{% button href=&amp;quot;https://getgrav.org/&amp;quot; icon=&amp;quot;fas fa-download&amp;quot; icon-position=&amp;quot;right&amp;quot; %}}Get Grav with icon right{{% /button %}}   Get Grav   Get Grav with icon  Get Grav with icon right   </description>
+      <guid>http://zeyangli.github.io/chapter3/4/</guid>
+      <description>1.1 命名规范 业务名称-应用名称-应用类型_环境类型： cxy-wlck-ui_TEST, 只有命名规范才方便管理项目。 1.2 新建项目 设置构建历史 选择参数化构建 设置构建触发器 设置Jen</description>
     </item>
     
     <item>
-      <title>Button (Bouton)</title>
-      <link>/shortcodes/button.fr/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>3-5 视图管理</title>
+      <link>http://zeyangli.github.io/chapter3/5/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/shortcodes/button.fr/</guid>
-      <description>Le shortcode button est simplement un bouton cliquable avec une icône optionnelle.
-{{% button href=&amp;quot;https://getgrav.org/&amp;quot; %}}Téléchargez Grav{{% /button %}} {{% button href=&amp;quot;https://getgrav.org/&amp;quot; icon=&amp;quot;fas fa-download&amp;quot; %}}Téléchargez Grav avec icône{{% /button %}} {{% button href=&amp;quot;https://getgrav.org/&amp;quot; icon=&amp;quot;fas fa-download&amp;quot; icon-position=&amp;quot;right&amp;quot; %}}Téléchargez Grav avec icône à droite{{% /button %}}   Téléchargez Grav   Téléchargez Grav avec icône  Téléchargez Grav avec icône à droite   </description>
+      <guid>http://zeyangli.github.io/chapter3/5/</guid>
+      <description>默认会创建一个all视图里面存放所有的项目。 2.1 创建视图 凭据-&amp;gt; 系统-&amp;gt; 全局凭据 2.2 删除视图 2.3 更新视图</description>
     </item>
     
     <item>
-      <title>Credits</title>
-      <link>/credits/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>3-6 插件管理</title>
+      <link>http://zeyangli.github.io/chapter3/6/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/credits/</guid>
-      <description>Contributors Thanks to them  for making Open Source Software a better place !
-.ghContributors{ display:flex; flex-flow: wrap; align-content: flex-start }
-.ghContributors &amp;gt; div{ width: 50% ; display: inline-flex; margin-bottom: 5px; } .ghContributors &amp;gt; div label{ padding-left: 4px ; } .ghContributors &amp;gt; div span{ font-size: x-small; padding-left: 4px ; }
-  @matcornic 162 commits 
- @matalo33 39 commits 
- @coliff 18 commits 
- @lierdakil 16 commits</description>
+      <guid>http://zeyangli.github.io/chapter3/6/</guid>
+      <description>系统设置-&amp;gt;插件管理。 3.1 安装插件 勾选要安装的插件，选择安装后不重启。（有些插件需要安装后重启） 安装 3.2 卸载插件 3.3 上传插件 3.4 切换插件更新站</description>
     </item>
     
     <item>
-      <title>Expand</title>
-      <link>/shortcodes/expand/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>4-1-1 集成maven</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-1/1/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/shortcodes/expand/</guid>
-      <description>The Expand shortcode displays an expandable/collapsible section of text on your page. Here is an example
-  Expand me...   Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</description>
+      <guid>http://zeyangli.github.io/chapter4/chapter4-1/1/</guid>
+      <description>先决条件 JDK：在maven3.3 以上的版本需要JDK版本1.7+。内存：没有最低限制。 磁盘：1G+可用磁盘空间。 操作系统：没有限制。 下载m</description>
     </item>
     
     <item>
-      <title>Expand</title>
-      <link>/shortcodes/expand.fr/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>4-1-2 集成ant</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-1/2/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/shortcodes/expand.fr/</guid>
-      <description>Le shortcode Expand affiche une section de texte qui se plie et se déplie. Ci-dessous un exemple.
-  Expand me...   Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</description>
+      <guid>http://zeyangli.github.io/chapter4/chapter4-1/2/</guid>
+      <description>先决条件 下载：Download 安装ant tar zxf apache-ant-1.10.5-bin.tar.gz -C /usr/local/ #添加全局变量（/etc/profile） export ANT_HOME=/usr/local/apache-ant-1.10.5 export PATH=$PATH:$MAVEN_HOME/bin:$ANT_HOME/bin source /etc/profile 测试 Jenkins配置ant 系统设置</description>
     </item>
     
     <item>
-      <title>Mermaid</title>
-      <link>/shortcodes/mermaid/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>4-1-3 集成gradle</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-1/3/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/shortcodes/mermaid/</guid>
-      <description>Mermaid is a library helping you to generate diagram and flowcharts from text, in a similar manner as Markdown.
-Just insert your mermaid code in the mermaid shortcode and that&amp;rsquo;s it.
-Flowchart example {{&amp;lt;mermaid align=&amp;quot;left&amp;quot;&amp;gt;}} graph LR; A[Hard edge] --&amp;gt;|Link text| B(Round edge) B --&amp;gt; C{Decision} C --&amp;gt;|One| D[Result one] C --&amp;gt;|Two| E[Result two] {{&amp;lt; /mermaid &amp;gt;}}  renders as
-graph LR; A[Hard edge] --|Link text| B(Round edge) B -- C{Decision} C --|One| D[Result one] C --|Two| E[Result two]  or you can use this alternative syntax:</description>
+      <guid>http://zeyangli.github.io/chapter4/chapter4-1/3/</guid>
+      <description>先决条件 下载: Download 安装Gradle unzip gradle-5.3-bin.zip -d /usr/local/ #添加全局变量（/etc/profile） export GRADLE_HOME=/usr/local/gradle-5.3 export PATH=$PATH: $GRADLE_HOME/bin source /etc/profile 测试 Jenkins配置gradle 系统设置-</description>
     </item>
     
     <item>
-      <title>Mermaid</title>
-      <link>/shortcodes/mermaid.fr/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>4-1-4 集成npm</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-1/4/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/shortcodes/mermaid.fr/</guid>
-      <description>Mermaid est une bibliothèque Javascript qui permet de générer des diagrammes (séquence, état, gantt, etc.) à partir de texte, dans le même style que Markdown.
-Insérer votre code Mermaid dans un shortcode mermaid et c&amp;rsquo;est tout.
-Flowchart example {{&amp;lt;mermaid align=&amp;quot;left&amp;quot;&amp;gt;}} graph LR; A[Bords droits] --&amp;gt;|Lien texte| B(Bords arondis) B --&amp;gt; C{Décision} C --&amp;gt;|Un| D[Résultat un] C --&amp;gt;|Deux| E[Résultat deux] {{&amp;lt; /mermaid &amp;gt;}}  renders as
-graph LR; A[Bords droits] --|Lien texte| B(Bords arondis) B -- C{Décision} C --|Un| D[Résultat un] C --|Deux| E[Résultat deux]  or you can use this alternative syntax:</description>
+      <guid>http://zeyangli.github.io/chapter4/chapter4-1/4/</guid>
+      <description>先决条件 下载Download 安装Node tar xf node-v10.15.3-linux-x64.tar.xz -C /usr/local/ #添加全局变量（/etc/profile） export NODE_HOME=/usr/local/node-v10.15.3-linux-x64 export PATH=$PATH: $NODE_HOME/bin source /etc/profile 测试 Jenkins配置Npm 在Je</description>
     </item>
     
     <item>
-      <title>Notice</title>
-      <link>/shortcodes/notice/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>4-2-1 安装Ldap服务</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-2/1/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/shortcodes/notice/</guid>
-      <description>The notice shortcode shows 4 types of disclaimers to help you structure your page.
-Note {{% notice note %}} A notice disclaimer {{% /notice %}}  renders as
-A notice disclaimer
- Info {{% notice info %}} An information disclaimer {{% /notice %}}  renders as
-An information disclaimer
- Tip {{% notice tip %}} A tip disclaimer {{% /notice %}}  renders as
-A tip disclaimer
- Warning {{% notice warning %}} A warning disclaimer {{% /notice %}}  renders as</description>
+      <guid>http://zeyangli.github.io/chapter4/chapter4-2/1/</guid>
+      <description>参考文档：https://www.cnblogs.com/mascot1/p/10498392.html 1.1 先决条件 #关闭SELINUX vim /etc/sysconfig/selinux #</description>
     </item>
     
     <item>
-      <title>Notice</title>
-      <link>/shortcodes/notice.fr/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>4-2-2 安装Ldap控制台</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-2/2/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/shortcodes/notice.fr/</guid>
-      <description>Le shortcode Notice permet d&amp;rsquo;afficher 4 types de message pour vous aider à structurer votre contenu.
-Note {{% notice note %}} Une notice de type *note* {{% /notice %}}  s&amp;rsquo;affiche comme
-Une notice de type note
- Info {{% notice info %}} Une notice de type *info* {{% /notice %}}  s&amp;rsquo;affiche comme
-Une notice de type info
- Tip {{% notice tip %}} Une notice de type *tip* {{% /notice %}}  s&amp;rsquo;affiche comme</description>
+      <guid>http://zeyangli.github.io/chapter4/chapter4-2/2/</guid>
+      <description>2.1 先决条件 #安装apache yum -y install httpd #修改配置文件 vim /etc/httpd/conf/httpd.conf #AllowOverride all #启动服务测试 systemctl start httpd systemctl enable httpd curl 127.0.0.1 2.2 安装phpldapadmin #安装phpldapa</description>
     </item>
     
     <item>
-      <title>page test</title>
-      <link>/shortcodes/children/test/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>4-2-3 配置Ldap服务</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-2/3/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/shortcodes/children/test/</guid>
-      <description>This is a test demo child page</description>
+      <guid>http://zeyangli.github.io/chapter4/chapter4-2/3/</guid>
+      <description>2.3 更改配置文件 #修改配置文件 vim /etc/phpldapadmin/config.php $servers-&amp;gt;setValue(&amp;#39;server&amp;#39;,&amp;#39;host&amp;#39;,&amp;#39;127.0.0.1&amp;#39;); $servers-&amp;gt;setValue(&amp;#39;server&amp;#39;,&amp;#39;port&amp;#39;,389); $servers-&amp;gt;setValue(&amp;#39;server&amp;#39;,&amp;#39;base&amp;#39;,array(&amp;#39;dc=my-domain,dc=com&amp;#39;)); $servers-&amp;gt;setValue(&amp;#39;login&amp;#39;,&amp;#39;auth_type&amp;#39;,&amp;#39;session&amp;#39;); $servers-&amp;gt;setValue(&amp;#39;login&amp;#39;,&amp;#39;attr&amp;#39;,&amp;#39;dn&amp;#39;); $servers-&amp;gt;setValue(&amp;#39;login&amp;#39;,&amp;#39;attr&amp;#39;,&amp;#39;dn&amp;#39;); #注释掉 #修改httpd配置文件 vim /etc/httpd/conf.d/phpldapadmin.conf Alias /phpldapadmin /usr/share/phpldapadmin/htdocs Alias /ldapadmin /usr/share/phpldapadmin/htdocs &amp;lt;Directory /usr/share/phpldapadmin/htdocs&amp;gt; &amp;lt;IfModule mod_authz_core.c&amp;gt; # Apache 2.4 Require local Require ip 192.168.0 &amp;lt;/IfModule&amp;gt; &amp;lt;IfModule !mod_authz_core.c&amp;gt; # Apache 2.2 Order Deny,Allow Deny from all Allow</description>
     </item>
     
     <item>
-      <title>page test</title>
-      <link>/shortcodes/children/test.fr/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>4-2-4 创建OU组织用户数据</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-2/4/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/shortcodes/children/test.fr/</guid>
-      <description>Ceci est une page de demo</description>
+      <guid>http://zeyangli.github.io/chapter4/chapter4-2/4/</guid>
+      <description>参考文档：https://www.cnblogs.com/mascot1/p/10498460.html 3.1 创建OU 选择Organisatio</description>
     </item>
     
     <item>
-      <title>page test 3</title>
-      <link>/shortcodes/children/children-2/test3/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>4-2-5 Jenkins集成Ldap</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-2/5/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/shortcodes/children/children-2/test3/</guid>
-      <description>This is a test 3 demo child page</description>
+      <guid>http://zeyangli.github.io/chapter4/chapter4-2/5/</guid>
+      <description>参考文档：https://www.cnblogs.com/mascot1/p/10498513.html 4.1 先决条件 准备一个adminDN账号</description>
     </item>
     
     <item>
-      <title>page test 3</title>
-      <link>/shortcodes/children/children-2/test3.fr/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>4-3-1 Jenkins集成Gitlab SSO单点登录</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-3/1/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/shortcodes/children/children-2/test3.fr/</guid>
-      <description>Ceci est une page de demo test 3</description>
+      <guid>http://zeyangli.github.io/chapter4/chapter4-3/1/</guid>
+      <description>1.1 Gitlab配置 应用管理-&amp;gt;创建应用-&amp;gt;配置重定向url 1.2 Jenkins配置 配置前备份config.xml文件， 如果jenki</description>
     </item>
     
     <item>
-      <title>Showcase</title>
-      <link>/showcase/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>4-3-2 WebHook集成</title>
+      <link>http://zeyangli.github.io/chapter4/chapter4-3/2/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/showcase/</guid>
-      <description> TAT by OVH Tshark.dev by Ross Jacobs </description>
+      <guid>http://zeyangli.github.io/chapter4/chapter4-3/2/</guid>
+      <description>2.1 Jenkins配置 安装gitlab hook插件 选择一个项目，在构建触发器模块选择通过gitlab触发。生成token 2.2 Gitlab配置 进入</description>
     </item>
     
     <item>
-      <title>Site param</title>
-      <link>/shortcodes/siteparam/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>4-4 Jenkins集成SaltStack批量自动化发布</title>
+      <link>http://zeyangli.github.io/chapter4/2/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/shortcodes/siteparam/</guid>
-      <description>siteparam shortcode is used to help you print values of site params.
-For instance, in this current site, the editURL variable is used in config.toml
-[params] editURL = &amp;quot;https://github.com/matcornic/hugo-theme-learn/edit/master/exampleSite/content/&amp;quot;  Use the siteparam shortcode to display its value.
-`editURL` Value : {{% siteparam &amp;quot;editURL&amp;quot; %}}  is displayed as
-editURL Value :</description>
+      <guid>http://zeyangli.github.io/chapter4/2/</guid>
+      <description>1. 安装saltstack saltstack原理详细可以参考saltstack官方文档 1.1 安装salt-master（jenkins） yum -y install salt-master service</description>
     </item>
     
     <item>
-      <title>Site param</title>
-      <link>/shortcodes/siteparam.fr/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>4-5 Jenkins制品库集成-Nexus</title>
+      <link>http://zeyangli.github.io/chapter4/3/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
       
-      <guid>/shortcodes/siteparam.fr/</guid>
-      <description>Les shortcode siteparam est utilisé pour vous aider à afficher des valeurs provenant des paramètres globaux du site.
-Par exemple, dans ce site, le paramètre editURL est utilisé dans le fichier config.toml
-[params] editURL = &amp;quot;https://github.com/matcornic/hugo-theme-learn/edit/master/exampleSite/content/&amp;quot;  Utilisez le shortcode siteparam pour affichier sa valeur.
-Valeur de `editURL` : {{% siteparam &amp;quot;editURL&amp;quot; %}}  s&amp;rsquo;affiche comme
-Valeur de editURL :</description>
+      <guid>http://zeyangli.github.io/chapter4/3/</guid>
+      <description>demo地址: https://github.com/zeyangli/springboot-helloworld.git 总体目标 开发人员提交代码，更新pom信息。jenkins读取pom文件中的信息，通过nexus插件上传到nexus。通过ne</description>
+    </item>
+    
+    <item>
+      <title>4-6 Jenkins集成禅道</title>
+      <link>http://zeyangli.github.io/chapter4/4/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter4/4/</guid>
+      <description>总体目标 在禅道中，看板上的任务完成或者切换到某个指定的状态，触发Jenkins构建。 Jenkins配置 设置项目参数化构建 禅道系统配置 禅道系统</description>
+    </item>
+    
+    <item>
+      <title>4-7 Jenkins集成制品库-Artifactory</title>
+      <link>http://zeyangli.github.io/chapter4/5/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter4/5/</guid>
+      <description>Jenkins集成制品库-Artifactory</description>
+    </item>
+    
+    <item>
+      <title>4-8 Jenkins集成SonarQube</title>
+      <link>http://zeyangli.github.io/chapter4/6/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter4/6/</guid>
+      <description>Jenkins集成SonarQube</description>
+    </item>
+    
+    <item>
+      <title>5-1 Jenkins Pipeline语法</title>
+      <link>http://zeyangli.github.io/chapter5/1/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter5/1/</guid>
+      <description>1. 认识Pipleine 1.1 Pipeline是什么？ Pipeline是Jenkins的核心功能，提供一组可扩展的工具。 通过Pipeline 的DS</description>
+    </item>
+    
+    <item>
+      <title>5-2 Jenkins 声明式与脚本式语法</title>
+      <link>http://zeyangli.github.io/chapter5/2/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter5/2/</guid>
+      <description>1. 声明式Pipeline 声明式Pipleine是最近添加到Jenkins流水线的，它在流水线子系统之上提供了一种更简单，更有主见的语法。 所有</description>
+    </item>
+    
+    <item>
+      <title>6-1 前端静态资源发布流水线</title>
+      <link>http://zeyangli.github.io/chapter6/1/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter6/1/</guid>
+      <description>1. 项目设置 项目配置部分主要是将网站源代码上传到github，然后搭建用户访问的web服务器。再经过Jenkins配置发布代码到web服务器。</description>
+    </item>
+    
+    <item>
+      <title>6-2 NodeJs项目发布流水线</title>
+      <link>http://zeyangli.github.io/chapter6/2/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter6/2/</guid>
+      <description>1. 项目设置 项目配置部分主要是将网站源代码上传到github，然后搭建用户访问的web服务器。再经过Jenkins配置发布代码到web服务器。</description>
+    </item>
+    
+    <item>
+      <title>6-3 Dotnet项目发布流水线</title>
+      <link>http://zeyangli.github.io/chapter6/3/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter6/3/</guid>
+      <description>demo地址: https://github.com/zeyangli/dotnet-HelloWorld.git 安装dotnet开发环境（centos7） rpm --import https://packages.microsoft.com/keys/microsoft.asc [root@VM_0_12_centos ~]# cat /etc/yum.repos.d/dotnetdev.repo [packages-microsoft-com-prod] name=packages-microsoft-com-prod baseurl= https://packages.microsoft.com/yumrepos/microsoft-rhel7.3-prod enabled=1 gpgcheck=1 gpgkey=https://packages.microsoft.com/keys/microsoft.asc yum install libunwind libicu yum install dotnet-sdk-2.1.103 dotnet --version 创建Jenkins项目 Jenkinsfile String buildShell = &amp;#34;${env.buildShell}&amp;#34; String targetDir</description>
+    </item>
+    
+    <item>
+      <title>6-4 JAVA-Springboot项目发布流水线</title>
+      <link>http://zeyangli.github.io/chapter6/4/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter6/4/</guid>
+      <description>demo地址: https://github.com/zeyangli/springboot-helloworld.git 创建Jenkins项目 serviceName: 服务的名称 buildShell : 项目打包命令 targetHosts: 应用发布主机（需安装salt-minion） targetDir: 应用的发布目录 user: 发布用户 port:</description>
+    </item>
+    
+    <item>
+      <title>6-5 Golang项目发布流水线</title>
+      <link>http://zeyangli.github.io/chapter6/5/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter6/5/</guid>
+      <description>demo地址: https://github.com/zeyangli/golang-helloworld-web.git 安装开发环境 wget https://dl.google.com/go/go1.10.2.linux-amd64.tar.gz tar zxf go1.10.2.linux-amd64.tar.gz -C /usr/local/ vim /etc/profile export GO_PATH=/usr/local/go export PATH=$PATH:$GO_PATH/bin source /etc/profile go version useradd golang Jenkins项目 serviceName: 服务名称 buildShell: 构建命令 targetHosts: 发布目标主机 user: 执行用户 targetDir: 发布目标主</description>
+    </item>
+    
+    <item>
+      <title>6-6-1 搭建Android打包环境（Centos）</title>
+      <link>http://zeyangli.github.io/chapter6/chapter6-6/1/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter6/chapter6-6/1/</guid>
+      <description>1.安装JDK 下载地址: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html tar zxf jdk-8u201-linux-x64.tar.gz -C /usr/local #添加到/etc/profile export JAVA_HOME=/usr/local/jdk1.8.0_201 export PATH=$PATH:$JAVA_HOME/bin source /etc/profile java -version 2.安装Android SDK Tools 需要翻墙: https://developer.android.com/studio/index.html #解压后会有一个t</description>
+    </item>
+    
+    <item>
+      <title>6-6-2 手动发布Android项目</title>
+      <link>http://zeyangli.github.io/chapter6/chapter6-6/2/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter6/chapter6-6/2/</guid>
+      <description>1.检出代码 项目地址: https://github.com/zeyangli/helloworld-android-gradle.git git clone https://github.com/zeyangli/helloworld-android-gradle.git 2.构建打包 目录: helloworld-android-gradle cd helloworld-android-gradle ./gradlew build Download https://jcenter.bintray.com/com/loopj/android/android-async-http/1.4.9/android-async-http-1.4.9.jar Download https://jcenter.bintray.com/cz/msebera/android/httpclient/4.3.6/httpclient-4.3.6.jar Download https://jcenter.bintray.com/com/google/code/gson/gson/2.8.1/gson-2.8.1.jar Download https://dl.google.com/dl/android/maven2/android/arch/lifecycle/common/1.0.0/common-1.0.0.jar Download https://dl.google.com/dl/android/maven2/android/arch/core/common/1.0.0/common-1.0.0.jar Unknown file extension: app/src/main/res/mipmap-xhdpi/ic_launcher.png Unknown file extension: app/src/main/res/mipmap-mdpi/ic_launcher.png Unknown file extension: app/src/main/res/mipmap-xxhdpi/ic_launcher.png Unknown file extension: app/src/main/res/mipmap-hdpi/ic_launcher.png Unknown file extension: app/src/main/res/mipmap-xxxhdpi/ic_launcher.png &amp;gt; Task :app:lint Ran lint on variant release: 4 issues found</description>
+    </item>
+    
+    <item>
+      <title>6-6-3 Jenkins发布流水线（Fir|蒲公英）</title>
+      <link>http://zeyangli.github.io/chapter6/chapter6-6/3/</link>
+      <pubDate>Tue, 17 Oct 2017 15:26:15 +0000</pubDate>
+      
+      <guid>http://zeyangli.github.io/chapter6/chapter6-6/3/</guid>
+      <description>1.项目配置 1.1 项目规范 打包存放路径: 统一在app/build/outputs/apk/[debug|release]目录下。 1.2 编写上传包脚本</description>
     </item>
     
   </channel>
